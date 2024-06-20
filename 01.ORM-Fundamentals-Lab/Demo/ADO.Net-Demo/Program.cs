@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
 
 /* first we need CONNECTION*/
-string connectionString = "Server=.;Database=LabSoftUni; User=DESKTOP-SENJ7PO;Password=...;TrustServerCertificate=true";
+string connectionString = "Server=.;Database=SoftUniLab; User=DESKTOP-SENJ7PO;Password=....;TrustServerCertificate=true";
 
 /* then we need QUERY to execute*/
 string query = "SELECT EmployeeID, FirstName, LastName, JobTitle, FROM Employees WHERE DepartmentID = @departmentId";
