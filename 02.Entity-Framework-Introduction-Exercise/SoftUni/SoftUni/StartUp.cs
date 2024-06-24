@@ -16,10 +16,12 @@ namespace SoftUni
             // 6. Console.WriteLine(AddNewAddressToEmployee(dbContext));
             // 7. Console.WriteLine(GetEmployeesInPeriod(dbContext));
             // 8. Console.WriteLine(GetAddressesByTown(dbContext));
+            // 9. Console.WriteLine(GetEmployee147(dbContext));
 
-            Console.WriteLine(GetEmployee147(dbContext));
+          
+            // 12. Console.WriteLine(IncreaseSalaries(dbContext));
 
-          // 14. Console.WriteLine(DeleteProjectById(dbContext));
+            // 14. Console.WriteLine(DeleteProjectById(dbContext));
         }
 
         // 03. Employees Full Information
@@ -44,7 +46,8 @@ namespace SoftUni
 
             foreach (var employee in employees)
             {
-                sb.AppendLine($"{employee.FirstName} {employee.LastName} {employee.MiddleName} {employee.JobTitle} {employee.Salary:F2}");
+                sb.AppendLine(
+                    $"{employee.FirstName} {employee.LastName} {employee.MiddleName} {employee.JobTitle} {employee.Salary:F2}");
             }
 
             return sb.ToString().TrimEnd();
@@ -142,16 +145,18 @@ namespace SoftUni
                     EmployeeNames = $"{e.FirstName} {e.LastName}",
                     ManagerNames = $"{e.Manager.FirstName} {e.Manager.LastName}",
                     Projects = e.EmployeesProjects
-                       .Where(ep => ep.Project.StartDate.Year >= 2001 &&
-                              ep.Project.StartDate.Year <= 2003)
-                       .Select(ep => new
-                       {
-                           ProjectName = ep.Project.Name,
-                           ep.Project.StartDate,
-                           EndDate = ep.Project.EndDate.HasValue ? // проверяваме дали EndDate има стойност
-                               ep.Project.EndDate.Value.ToString("M/d/yyyy h:mm:ss tt")  // ако има връщаме тази стойност
-                               : "not finished"  // ако няма връщаме тази
-                       })
+                        .Where(ep => ep.Project.StartDate.Year >= 2001 &&
+                                     ep.Project.StartDate.Year <= 2003)
+                        .Select(ep => new
+                        {
+                            ProjectName = ep.Project.Name,
+                            ep.Project.StartDate,
+                            EndDate = ep.Project.EndDate.HasValue
+                                ? // проверяваме дали EndDate има стойност
+                                ep.Project.EndDate.Value.ToString(
+                                    "M/d/yyyy h:mm:ss tt") // ако има връщаме тази стойност
+                                : "not finished" // ако няма връщаме тази
+                        })
                 });
 
             var sb = new StringBuilder();
@@ -181,13 +186,13 @@ namespace SoftUni
                 .ThenBy(a => a.Town.Name)
                 .ThenBy(a => a.AddressText)
                 .Take(10)
-       .Select(a => new
-       {
-           a.Employees.Count,
-           a.AddressText,
-           a.Town.Name
-       });
-            
+                .Select(a => new
+                {
+                    a.Employees.Count,
+                    a.AddressText,
+                    a.Town.Name
+                });
+
             var sb = new StringBuilder();
 
             foreach (var a in addresses)
@@ -202,21 +207,59 @@ namespace SoftUni
         // 09. Employee 147
         public static string GetEmployee147(SoftUniContext context)
         {
-                Employee employee = context.Employees
-                    .Include(e => e.EmployeesProjects)
-                    .ThenInclude(ep => ep.Project)
-                    .FirstOrDefault(e => e.EmployeeId == 147);
+            Employee employee = context.Employees
+                .Include(e => e.EmployeesProjects)
+                .ThenInclude(ep => ep.Project)
+                .FirstOrDefault(e => e.EmployeeId == 147);
 
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine($"{employee.FirstName} {employee.LastName} - {employee.JobTitle}");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{employee.FirstName} {employee.LastName} - {employee.JobTitle}");
 
-                foreach (var ep in employee.EmployeesProjects
-                             .OrderBy(ep => ep.Project.Name))
-                {
-                    sb.AppendLine(ep.Project.Name);
-                }
-                return sb.ToString().TrimEnd();
+            foreach (var ep in employee.EmployeesProjects
+                         .OrderBy(ep => ep.Project.Name))
+            {
+                sb.AppendLine(ep.Project.Name);
             }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        // 12. Increase Salaries
+        public static string IncreaseSalaries(SoftUniContext context)
+        {
+            var luckyEmpl = context.Employees
+                .Where(e => e.Department.Name == "Engineering"
+                            || e.Department.Name == "Tool Design"
+                            || e.Department.Name == "Marketing"
+                            || e.Department.Name == "Information Services");
+
+            foreach (var e in luckyEmpl)
+            {
+                e.Salary += e.Salary * 0.12m;
+            }
+            context.SaveChanges();
+
+            var employeesToDisplay = luckyEmpl
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.LastName,
+                    e.Salary
+                })
+                .OrderBy(e=>e.FirstName)
+                .ThenBy(e=>e.LastName)
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
+
+
+            foreach (var e in employeesToDisplay)
+            {
+                sb.AppendLine($"{e.FirstName} {e.LastName} (${e.Salary:f2})");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
 
 
         // 14. Delete Project by Id
