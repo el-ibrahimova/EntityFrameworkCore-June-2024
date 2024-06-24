@@ -17,11 +17,14 @@ namespace SoftUni
             // 7. Console.WriteLine(GetEmployeesInPeriod(dbContext));
             // 8. Console.WriteLine(GetAddressesByTown(dbContext));
             // 9. Console.WriteLine(GetEmployee147(dbContext));
+           
+            Console.WriteLine(GetDepartmentsWithMoreThan5Employees(dbContext));
 
-          
             // 12. Console.WriteLine(IncreaseSalaries(dbContext));
-
+            // 13. Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(dbContext));
             // 14. Console.WriteLine(DeleteProjectById(dbContext));
+            // 15. Console.WriteLine(RemoveTown(dbContext));
+
         }
 
         // 03. Employees Full Information
@@ -135,7 +138,7 @@ namespace SoftUni
         }
 
 
-        // 07. Employees and Projectspublic static string public static string GetEmployeesInPeriod(SoftUniContext context)
+        // 07. Employees and Projects
         public static string GetEmployeesInPeriod(SoftUniContext context)
         {
             var result = context.Employees
@@ -224,6 +227,52 @@ namespace SoftUni
             return sb.ToString().TrimEnd();
         }
 
+        // 10. Departments with More Than 5 Employees
+        public static string GetDepartmentsWithMoreThan5Employees(SoftUniContext context)
+        {
+            var departments = context.Departments
+                .Where(d => d.Employees.Count > 5)
+                .OrderBy(d => d.Employees.Count)
+                .ThenBy(d => d.Name)
+                .Select(d => new
+                {
+                    d.Name,
+                    ManagerName =$"{d.Manager.FirstName} {d.Manager.LastName}",
+                    Employees = d.Employees
+                        .OrderBy(e => e.FirstName)
+                        .ThenBy(e => e.LastName)
+                        .Select(e => new
+                        {
+                            e.FirstName,
+                            e.LastName,
+                            e.JobTitle
+                        })
+                        .ToArray()
+                })
+                .ToArray();
+
+            StringBuilder sb = new();
+
+            foreach (var d in departments)
+            {
+                sb.AppendLine($"{d.Name} - {d.ManagerName}");
+
+                foreach (var e in d.Employees)
+                {
+                    sb.AppendLine($"{e.FirstName} {e.LastName} - {e.JobTitle}");
+                }
+            }
+            return sb.ToString().TrimEnd();
+        }
+
+
+
+
+
+
+
+
+
         // 12. Increase Salaries
         public static string IncreaseSalaries(SoftUniContext context)
         {
@@ -246,8 +295,8 @@ namespace SoftUni
                     e.LastName,
                     e.Salary
                 })
-                .OrderBy(e=>e.FirstName)
-                .ThenBy(e=>e.LastName)
+                .OrderBy(e => e.FirstName)
+                .ThenBy(e => e.LastName)
                 .ToArray();
 
             StringBuilder sb = new StringBuilder();
@@ -256,6 +305,33 @@ namespace SoftUni
             foreach (var e in employeesToDisplay)
             {
                 sb.AppendLine($"{e.FirstName} {e.LastName} (${e.Salary:f2})");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        // 13. Find Employees by First Name Starting With "Sa"
+        public static string GetEmployeesByFirstNameStartingWithSa(SoftUniContext context)
+        {
+            var employees = context.Employees
+                .Select(e => new
+                {
+                    e.FirstName,
+                    e.LastName,
+                    e.JobTitle,
+                    e.Salary
+                })
+                .Where(e => e.FirstName.ToLower().StartsWith("sa"))
+                //.Where(e=>EF.Functions.Like(e.FirstName.ToLower(), "sa%"))
+                .OrderBy(e => e.FirstName)
+                .ThenBy(e => e.LastName)
+                .ToList();
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var e in employees)
+            {
+                sb.AppendLine($"{e.FirstName} {e.LastName} - {e.JobTitle} - (${e.Salary:f2})");
             }
 
             return sb.ToString().TrimEnd();
@@ -285,6 +361,37 @@ namespace SoftUni
                 .ToArray();
 
             return string.Join(Environment.NewLine, projectNames);
+        }
+
+        // 15. Remove Town
+        public static string RemoveTown(SoftUniContext context)
+        {
+            Address[] seattleAddresses = context
+                .Addresses
+                .Where(a => a.Town.Name == "Seattle")
+                .ToArray();
+
+            Employee[] employeesInSeattle = context
+                .Employees
+                .ToArray() // тук има проблем с версията на Visual Studio и се налага да откачим връзката от базата, като я материализараме 
+                .Where(e => seattleAddresses.Any(a => a.AddressId == e.AddressId))
+                .ToArray();
+
+            foreach (Employee employee in employeesInSeattle)
+            {
+                employee.AddressId = null;
+            }
+
+            context.Addresses.RemoveRange(seattleAddresses);
+
+            Town seattleTown = context
+                .Towns
+                .First(t => t.Name == "Seattle");
+            context.Towns.Remove(seattleTown);
+
+            context.SaveChanges();
+
+            return $"{seattleAddresses.Length} addresses in Seattle were deleted";
         }
 
     }
