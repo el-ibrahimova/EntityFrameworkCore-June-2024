@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SoftUni.Data;
 using SoftUni.Models;
@@ -17,14 +18,13 @@ namespace SoftUni
             // 7. Console.WriteLine(GetEmployeesInPeriod(dbContext));
             // 8. Console.WriteLine(GetAddressesByTown(dbContext));
             // 9. Console.WriteLine(GetEmployee147(dbContext));
-           
-            Console.WriteLine(GetDepartmentsWithMoreThan5Employees(dbContext));
-
+            // 10. Console.WriteLine(GetDepartmentsWithMoreThan5Employees(dbContext));
+            // 11. Console.WriteLine(GetLatestProjects(dbContext));
             // 12. Console.WriteLine(IncreaseSalaries(dbContext));
             // 13. Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(dbContext));
             // 14. Console.WriteLine(DeleteProjectById(dbContext));
-            // 15. Console.WriteLine(RemoveTown(dbContext));
-
+                  
+                   Console.WriteLine(RemoveTown(dbContext));
         }
 
         // 03. Employees Full Information
@@ -54,7 +54,6 @@ namespace SoftUni
             }
 
             return sb.ToString().TrimEnd();
-
         }
 
 
@@ -77,7 +76,6 @@ namespace SoftUni
             {
                 sb.AppendLine($"{e.FirstName} - {e.Salary:f2}");
             }
-
             return sb.ToString().TrimEnd();
         }
 
@@ -104,7 +102,7 @@ namespace SoftUni
             {
                 sb.AppendLine($"{e.FirstName} {e.LastName} from {e.Department.Name} - ${e.Salary:f2}");
             }
-
+            
             return sb.ToString().TrimEnd();
         }
 
@@ -132,7 +130,6 @@ namespace SoftUni
                 .Take(10)
                 .Select(e => e.Address.AddressText)
                 .ToList();
-
 
             return string.Join(Environment.NewLine, employees);
         }
@@ -176,7 +173,6 @@ namespace SoftUni
                     }
                 }
             }
-
             return sb.ToString().TrimEnd();
         }
 
@@ -202,7 +198,7 @@ namespace SoftUni
             {
                 sb.AppendLine($"{a.AddressText}, {a.Name} - {a.Count} employees");
             }
-
+            
             return sb.ToString().TrimEnd();
         }
 
@@ -226,6 +222,7 @@ namespace SoftUni
 
             return sb.ToString().TrimEnd();
         }
+
 
         // 10. Departments with More Than 5 Employees
         public static string GetDepartmentsWithMoreThan5Employees(SoftUniContext context)
@@ -265,13 +262,34 @@ namespace SoftUni
             return sb.ToString().TrimEnd();
         }
 
+        // 11. Find Latest 10 Projects
 
+        public static string GetLatestProjects(SoftUniContext context)
+        {
+            var projects = context.Projects
+                .OrderByDescending(p => p.StartDate)              
+                .Take(10)
+                .OrderBy(p => p.Name)
+                .Select(p => new
+                {
+                    p.Name,
+                    p.Description,
+                    p.StartDate
+                })
+                .ToList();
 
+            var sb = new StringBuilder();
 
+            foreach (var p in projects)
+            {
+                sb.AppendLine($"{p.Name}");
+                sb.AppendLine($"{p.Description}");
+                sb.AppendLine($"{p.StartDate:M/d/yyyy h:mm:ss tt}");
+            }
 
-
-
-
+            return sb.ToString().TrimEnd();
+        }
+        
 
         // 12. Increase Salaries
         public static string IncreaseSalaries(SoftUniContext context)
@@ -363,6 +381,7 @@ namespace SoftUni
             return string.Join(Environment.NewLine, projectNames);
         }
 
+
         // 15. Remove Town
         public static string RemoveTown(SoftUniContext context)
         {
@@ -393,6 +412,5 @@ namespace SoftUni
 
             return $"{seattleAddresses.Length} addresses in Seattle were deleted";
         }
-
     }
 }
