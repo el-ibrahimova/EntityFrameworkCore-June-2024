@@ -11,7 +11,7 @@ namespace P01_StudentSystem.Data.Models
 
         [MinLength(10)]
         [MaxLength(10)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Required]
         public DateTime RegisteredOn { get; set; }
@@ -19,8 +19,11 @@ namespace P01_StudentSystem.Data.Models
         public DateTime? Birthday { get; set; }
         // DateTime? - тази колона е Nullable -  не е задължителна за попълване
 
+
+        //relation to the StudentCourse table: one student to many courses
         public virtual ICollection<StudentCourse> StudentsCourses { get; set; }
 
+        //relation to Homework table: one student to many homeworks
         public virtual ICollection<Homework> Homeworks { get; set; }
     }
 }
