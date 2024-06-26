@@ -8,11 +8,13 @@ namespace P01_StudentSystem.Data
         private const string ConnectionString =
             "Server=DESKTOP-SENJ7PO\\SQLEXPRESS;Database=StudentSystem;Integrated Security=True";
 
+        
         public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
 
         public DbSet<StudentCourse> StudentsCourses { get; set; }
-        public DbSet<Resource> Resoses { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<Homework> Homework { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,14 +26,11 @@ namespace P01_StudentSystem.Data
         {
             // описваме композитния ключ
             modelBuilder.Entity<StudentCourse>()
-                .HasKey(sc=> new {sc.CourseId, sc.StudentId})
-                
-                
-                ;
+                .HasKey(sc => new { sc.CourseId, sc.StudentId });
 
+            modelBuilder.Entity<Student>()
+                .Property(s => s.PhoneNumber)
+                .IsUnicode(false);
         }
-
-
-
     }
 }

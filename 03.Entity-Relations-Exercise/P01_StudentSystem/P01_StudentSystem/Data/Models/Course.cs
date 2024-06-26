@@ -21,5 +21,6 @@ namespace P01_StudentSystem.Data.Models
         public virtual ICollection<StudentCourse> StudentsCourses { get; set; }
 
         public virtual ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<Homework> Homeworks { get; set; }
     }
 }

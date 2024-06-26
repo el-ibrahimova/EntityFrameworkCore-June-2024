@@ -20,5 +20,7 @@ namespace P01_StudentSystem.Data.Models
         // DateTime? - тази колона е Nullable -  не е задължителна за попълване
 
         public virtual ICollection<StudentCourse> StudentsCourses { get; set; }
+
+        public virtual ICollection<Homework> Homeworks { get; set; }
     }
 }
