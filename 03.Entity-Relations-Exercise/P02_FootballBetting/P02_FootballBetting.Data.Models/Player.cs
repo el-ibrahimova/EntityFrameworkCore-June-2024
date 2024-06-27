@@ -16,7 +16,7 @@ namespace P02_FootballBetting.Data.Models
 
         [Required]
         [MaxLength(ValidationConstants.PlayerNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public int SquadNumber { get; set; }
 
@@ -37,7 +37,7 @@ namespace P02_FootballBetting.Data.Models
         // Position relations
         [ForeignKey(nameof(Position))]
         public int PositionId { get; set; }
-        public virtual Position Position { get; set; }
+        public virtual Position Position { get; set; } = null!;
 
 
 

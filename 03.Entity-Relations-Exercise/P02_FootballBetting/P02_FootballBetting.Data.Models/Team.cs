@@ -17,17 +17,17 @@ namespace P02_FootballBetting.Data.Models
         [Key]
         public int TeamId { get; set; }
 
-        [Required]  // NOT NULL constraint in SQL
+        [Required] // NOT NULL constraint in SQL
         [MaxLength(ValidationConstants.TeamNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [MaxLength(ValidationConstants.TeamLogoUrlMaxLength)]
-        public string LogoUrl { get; set; }
+        public string? LogoUrl { get; set; }
 
 
         [Required]
         [MaxLength(ValidationConstants.TeamInitialsMaxLength)]
-        public string Initials { get; set; }
+        public string Initials { get; set; } = null!;
 
         // Required (NOT NULL) by default because decimal data type is not nullable
         public decimal Budget { get; set; }
@@ -36,19 +36,19 @@ namespace P02_FootballBetting.Data.Models
       // Color relations
         [ForeignKey(nameof(PrimaryKitColor))]
         public int PrimaryKitColorId { get; set; }
-        public virtual Color PrimaryKitColor { get; set; }
+        public virtual Color PrimaryKitColor { get; set; } = null!;
         
 
         [ForeignKey(nameof(SecondaryKitColor))]
         public int SecondaryKitColorId { get; set; }
-        public virtual Color SecondaryKitColor { get; set; }
+        public virtual Color SecondaryKitColor { get; set; } = null!;
 
 
         // Town relations
         [ForeignKey(nameof(Town))]
         public int TownId { get; set; }
 
-        public virtual Town Town { get; set; }
+        public virtual Town Town { get; set; } = null!;
 
 
 

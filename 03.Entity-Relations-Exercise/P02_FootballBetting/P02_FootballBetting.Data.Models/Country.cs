@@ -15,7 +15,7 @@ namespace P02_FootballBetting.Data.Models
 
         [Required]
         [MaxLength(ValidationConstants.CountryNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         // Towns relations 
         public virtual ICollection<Town> Towns { get; set; }

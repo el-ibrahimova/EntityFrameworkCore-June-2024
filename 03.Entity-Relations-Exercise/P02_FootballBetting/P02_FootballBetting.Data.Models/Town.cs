@@ -17,13 +17,13 @@ namespace P02_FootballBetting.Data.Models
 
         [Required]
         [MaxLength(ValidationConstants.TownNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
        
         // Country relations
         [ForeignKey(nameof(Country))]
         public int CounryId { get; set; }
-        public virtual Country Country { get; set; }
+        public virtual Country Country { get; set; } = null!;
 
 
         // Teams relations

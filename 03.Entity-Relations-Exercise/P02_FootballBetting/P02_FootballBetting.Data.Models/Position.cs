@@ -15,7 +15,7 @@ namespace P02_FootballBetting.Data.Models
 
         [Required]
         [MaxLength(ValidationConstants.PositionNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
 
         // Player relations

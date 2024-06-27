@@ -21,13 +21,15 @@ namespace P02_FootballBetting.Data.Models
         // User relations
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-        public virtual User User { get; set; }
+
+        public virtual User User { get; set; } = null!;
 
       
         // Game relations
         [ForeignKey(nameof(Game))]
         public int GameId { get; set; }
-        public virtual Game Game { get; set; }
+
+        public virtual Game Game { get; set; } = null!;
 
 
 

@@ -20,7 +20,7 @@ namespace P02_FootballBetting.Data.Models
 
         [Required]
         [MaxLength(ValidationConstants.ColorNameMaxLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         
         // this attribute [InverseProperty] is used to tell from which foreign key to fill the collection
