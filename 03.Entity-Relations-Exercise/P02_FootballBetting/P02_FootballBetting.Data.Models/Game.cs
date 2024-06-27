@@ -1,17 +1,29 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using P02_FootballBetting.Data.Common;
 
 namespace P02_FootballBetting.Data.Models
 {
     public class Game
     {
+        public Game()
+        {
+            this.Bets = new HashSet<Bet>();
+        }
+
         // in real project it is good the PK to be string -> GUID
         [Key]
         public int GameId { get; set; }
-
+        [ForeignKey(nameof(HomeTeam))]
         public int HomeTeamId { get; set; }
+        public virtual Team HomeTeam { get; set; }
 
+
+        [ForeignKey(nameof(AwayTeam))]
         public int AwayTeamId { get; set; }
+        public virtual Team AwayTeam { get; set; }
+
+
         public byte HomeTeamGoals { get; set; }
         public byte AwayTeamGoals { get;set; }
 
@@ -26,6 +38,13 @@ namespace P02_FootballBetting.Data.Models
 
         [MaxLength(ValidationConstants.GameResultMaxLength)]
         public string? Result { get; set; }
-        // in is nullable - string? - bacause of the game may be not finished 
+        // in is nullable - string? - bacause of the game may be not finished
+        
+
+        // from mapping table PlayerStatistic 
+        public virtual ICollection<PlayerStatistic> PlayersStatistic { get; set; }
+
+        // Bet relations
+        public virtual ICollection<Bet> Bets { get; set; }
     }
 }

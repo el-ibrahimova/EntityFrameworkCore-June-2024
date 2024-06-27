@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using P02_FootballBetting.Data.Common;
+using P02_FootballBetting.Data.Models;
 
 namespace P02_FootballBetting.Data
 {
@@ -37,6 +38,11 @@ namespace P02_FootballBetting.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<PlayerStatistic>(entity =>
+            {
+                entity.HasKey(ps => new { ps.GameId, ps.PlayerId });
+            });
 
         }
 

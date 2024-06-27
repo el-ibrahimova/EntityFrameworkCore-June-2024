@@ -5,8 +5,12 @@ namespace P02_FootballBetting.Data.Models
 {
     public class User
     {
-        // it is good to be GUID
+        public User()
+        {
+            this.Bets = new HashSet<Bet>();
+        }
 
+        // it is good to be GUID
         [Key]
         public int UserId { get; set; }
 
@@ -29,5 +33,11 @@ namespace P02_FootballBetting.Data.Models
         public string Email { get; set; }
 
         public decimal Balance { get; set; }
+
+
+
+        // Bet relations
+        public virtual ICollection<Bet> Bets { get; set; }
+
     }
 }

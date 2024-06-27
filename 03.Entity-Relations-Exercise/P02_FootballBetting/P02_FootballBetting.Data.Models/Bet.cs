@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using P02_FootballBetting.Data.Models.Enums;
 
 namespace P02_FootballBetting.Data.Models
@@ -16,8 +17,19 @@ namespace P02_FootballBetting.Data.Models
 
         public DateTime DateTime { get; set; }
 
-        public int UserId { get; set; }
 
+        // User relations
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+
+      
+        // Game relations
+        [ForeignKey(nameof(Game))]
         public int GameId { get; set; }
+        public virtual Game Game { get; set; }
+
+
+
     }
 }
