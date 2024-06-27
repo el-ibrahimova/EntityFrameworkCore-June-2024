@@ -7,7 +7,7 @@ namespace P01_StudentSystem.Data.Models
         public int StudentId { get; set; }
         
         [ForeignKey(nameof(StudentId))]
-        public virtual Student Student { get; set; } // трябва да е virtual заради LazyLoading. По принцип е добре навигационните пропъртита да са virtual
+        public virtual Student Student { get; set; } // this should be virtual because of LazyLoading. It is good navigation property to be virtual
        
         public int CourseId { get; set; }
        

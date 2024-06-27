@@ -16,8 +16,9 @@ namespace P01_StudentSystem.Data.Models
         [Required]
         public DateTime RegisteredOn { get; set; }
 
+        // DateTime? - this column is Nullable -  not required
         public DateTime? Birthday { get; set; }
-        // DateTime? - тази колона е Nullable -  не е задължителна за попълване
+
 
 
         //relation to the StudentCourse table: one student to many courses

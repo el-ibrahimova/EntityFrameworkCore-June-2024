@@ -9,6 +9,7 @@ namespace P01_StudentSystem.Data.Models
         public int HomeworkId { get; set; }
 
         public string Content { get; set; }
+
         public ContentType ContentType { get; set; }
 
         public DateTime SubmissionTime { get; set; }
@@ -22,9 +23,6 @@ namespace P01_StudentSystem.Data.Models
 
         [ForeignKey(nameof(CourseId))]
         public Course Course { get; set; }
-
-
-
     }
 
     public enum ContentType

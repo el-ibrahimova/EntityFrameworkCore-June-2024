@@ -4,7 +4,7 @@ namespace P01_StudentSystem.Data.Models
 {
     public class Course
     {
-        [Key]// Може и да не се добавя, защото името съдържа Id и EF само се досеща, че е първичен ключ
+        [Key]
         public int CourseId { get; set; }
 
         [Required]
@@ -14,6 +14,7 @@ namespace P01_StudentSystem.Data.Models
         public string? Description { get; set; }
 
         public DateTime StartDate { get; set; }
+
         public DateTime EndDate { get; set; }
 
         public decimal Price { get; set; }

@@ -22,13 +22,13 @@ namespace P01_StudentSystem.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //   // за това трябва да имаме инсталиран провайдър Microsoft.EntityFrameworkCore.SqlServer
+        //   // for this we need to instal provider -> Microsoft.EntityFrameworkCore.SqlServer
         //    optionsBuilder.UseSqlServer(ConnectionString);
         //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // описваме композитния ключ
+            // describe composite key
             modelBuilder.Entity<StudentCourse>()
                 .HasKey(sc => new { sc.CourseId, sc.StudentId });
 

@@ -15,14 +15,11 @@ namespace P01_StudentSystem.Data.Models
         public string Url { get; set; }
 
         public ResourceType ResourceType { get; set; }
-
         
         public int CourseId { get; set; }
 
         [ForeignKey(nameof(CourseId))]
         public virtual Course Course { get; set; }
-
-   
     }
 
     public enum ResourceType
