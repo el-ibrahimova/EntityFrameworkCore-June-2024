@@ -22,5 +22,9 @@
         // Position
         public const int PositionNameMaxLength = 50;
 
+        // Game
+        // 10 : 10
+        public const int GameResultMaxLength = 7;
+
     }
 }
