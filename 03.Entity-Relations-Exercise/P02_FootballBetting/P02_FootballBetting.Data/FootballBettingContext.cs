@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using P02_FootballBetting.Data.Common;
 
 namespace P02_FootballBetting.Data
 {
@@ -25,7 +26,8 @@ namespace P02_FootballBetting.Data
             if (!optionsBuilder.IsConfigured)
             {
                 // Set default connection string
-                optionsBuilder.UseSqlServer(v)
+                // If someone used empty constructor of our DbContext
+                optionsBuilder.UseSqlServer(DbConfig.ConnectionString);
             }
 
             base.OnConfiguring(optionsBuilder);
