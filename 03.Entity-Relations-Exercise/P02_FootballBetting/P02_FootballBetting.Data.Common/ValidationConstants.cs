@@ -26,5 +26,11 @@
         // 10 : 10
         public const int GameResultMaxLength = 7;
 
+        // User
+        public const int UserUsernameMaxLength = 36;
+        public const int UserNameMaxLength = 100;
+        public const int UserPasswordMaxLength = 256;
+        public const int UserEmailMaxLength = 256;
+
     }
 }
