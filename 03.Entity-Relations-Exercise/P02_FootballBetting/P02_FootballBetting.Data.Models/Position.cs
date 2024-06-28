@@ -13,8 +13,7 @@ namespace P02_FootballBetting.Data.Models
         [Key]
         public int PositionId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.PositionNameMaxLength)]
+      [MaxLength(ValidationConstants.PositionNameMaxLength)]
         public string Name { get; set; } = null!;
 
 

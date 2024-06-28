@@ -13,8 +13,7 @@ namespace P02_FootballBetting.Data.Models
         [Key]
         public int CountryId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.CountryNameMaxLength)]
+      [MaxLength(ValidationConstants.CountryNameMaxLength)]
         public string Name { get; set; } = null!;
 
         // Towns relations 

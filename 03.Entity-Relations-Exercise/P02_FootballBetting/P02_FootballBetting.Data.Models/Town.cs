@@ -10,23 +10,25 @@ namespace P02_FootballBetting.Data.Models
         public Town()
         {
             this.Teams = new HashSet<Team>();
+            this.Players = new HashSet<Player>();
         }
 
         [Key]
         public int TownId { get; set; }
 
-        [Required]
         [MaxLength(ValidationConstants.TownNameMaxLength)]
         public string Name { get; set; } = null!;
 
        
         // Country relations
         [ForeignKey(nameof(Country))]
-        public int CounryId { get; set; }
+        public int CountryId { get; set; }
         public virtual Country Country { get; set; } = null!;
 
 
         // Teams relations
         public virtual ICollection<Team> Teams { get; set; }
+
+        public virtual ICollection<Player> Players { get; set; }
     }
 }

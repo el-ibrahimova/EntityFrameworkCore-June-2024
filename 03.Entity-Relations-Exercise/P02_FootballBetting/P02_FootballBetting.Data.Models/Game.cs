@@ -9,18 +9,19 @@ namespace P02_FootballBetting.Data.Models
         public Game()
         {
             this.Bets = new HashSet<Bet>();
+            this.PlayersStatistics = new HashSet<PlayerStatistic>();
         }
 
         // in real project it is good the PK to be string -> GUID
         [Key]
         public int GameId { get; set; }
-        [ForeignKey(nameof(HomeTeam))]
+       
+      //  [ForeignKey(nameof(HomeTeam))]
         public int HomeTeamId { get; set; }
-
         public virtual Team HomeTeam { get; set; } = null!;
 
 
-        [ForeignKey(nameof(AwayTeam))]
+       // [ForeignKey(nameof(AwayTeam))]
         public int AwayTeamId { get; set; }
         public virtual Team AwayTeam { get; set; } = null!;
 
@@ -32,18 +33,18 @@ namespace P02_FootballBetting.Data.Models
         // DateTime? is nullable
         public DateTime DateTime { get; set; }
 
-        public double HomeTeamBetRate { get; set; }
-        public double AwayTeamBetRate { get; set; }
+        public decimal HomeTeamBetRate { get; set; }
+        public decimal AwayTeamBetRate { get; set; }
 
-        public double DrawBetRate { get; set; }
+        public decimal DrawBetRate { get; set; }
 
         [MaxLength(ValidationConstants.GameResultMaxLength)]
-        public string? Result { get; set; }
-        // in is nullable - string? - bacause of the game may be not finished
+        public string Result { get; set; }
+      
         
 
         // from mapping table PlayerStatistic 
-        public virtual ICollection<PlayerStatistic> PlayersStatistic { get; set; }
+        public virtual ICollection<PlayerStatistic> PlayersStatistics { get; set; }
 
         // Bet relations
         public virtual ICollection<Bet> Bets { get; set; }

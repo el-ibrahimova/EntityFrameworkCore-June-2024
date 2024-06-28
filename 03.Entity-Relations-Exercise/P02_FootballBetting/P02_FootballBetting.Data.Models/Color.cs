@@ -12,22 +12,19 @@ namespace P02_FootballBetting.Data.Models
             this.PrimaryKitTeams = new HashSet<Team>();
             this.SecondaryKitTeams = new HashSet<Team>();
         }
-
-
-
+        
         [Key]
         public int ColorId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.ColorNameMaxLength)]
+     [MaxLength(ValidationConstants.ColorNameMaxLength)]
         public string Name { get; set; } = null!;
 
         
         // this attribute [InverseProperty] is used to tell from which foreign key to fill the collection
-        [InverseProperty(nameof(Team.PrimaryKitColor))]
+      //  [InverseProperty(nameof(Team.PrimaryKitColor))]
         public virtual ICollection<Team> PrimaryKitTeams { get; set; }
       
-        [InverseProperty(nameof(Team.SecondaryKitColor))]
+      //  [InverseProperty(nameof(Team.SecondaryKitColor))]
         public virtual ICollection<Team> SecondaryKitTeams { get; set; }
     }
 }

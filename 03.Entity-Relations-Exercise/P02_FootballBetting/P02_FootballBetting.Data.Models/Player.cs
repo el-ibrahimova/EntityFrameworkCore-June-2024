@@ -8,14 +8,13 @@ namespace P02_FootballBetting.Data.Models
     {
         public Player()
         {
-            this.PlayersStatistic = new HashSet<PlayerStatistic>();
+            this.PlayersStatistics = new HashSet<PlayerStatistic>();
         }
 
         [Key]
         public int PlayerId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.PlayerNameMaxLength)]
+     [MaxLength(ValidationConstants.PlayerNameMaxLength)]
         public string Name { get; set; } = null!;
 
         public int SquadNumber { get; set; }
@@ -26,11 +25,9 @@ namespace P02_FootballBetting.Data.Models
 
 
 
-        // this FK should not be NOT NULL
-        // Warning: This may cause a problem in Judge
         [ForeignKey(nameof(Team))]
-        public int?  TeamId { get; set; } 
-        public virtual Team? Team { get; set; }
+        public int TeamId { get; set; }
+        public virtual Team Team { get; set; } = null!;
 
 
 
@@ -39,10 +36,14 @@ namespace P02_FootballBetting.Data.Models
         public int PositionId { get; set; }
         public virtual Position Position { get; set; } = null!;
 
-
+      
+        
+        //[ForeignKey(nameof(Town))]
+        public int TownId { get; set; }
+        public virtual Town Town { get; set; }
 
 
         // from mapping table PlayerStatistic 
-        public virtual ICollection<PlayerStatistic> PlayersStatistic { get; set; }
+        public virtual ICollection<PlayerStatistic> PlayersStatistics{ get; set; }
     }
 }

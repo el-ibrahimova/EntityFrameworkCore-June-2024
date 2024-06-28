@@ -10,22 +10,19 @@ namespace P02_FootballBetting.Data.Models
         {
             this.HomeGames = new HashSet<Game>();
             this.AwayGames = new HashSet<Game>();
-           
             this.Players = new HashSet<Player>();
         }
 
         [Key]
         public int TeamId { get; set; }
 
-        [Required] // NOT NULL constraint in SQL
-        [MaxLength(ValidationConstants.TeamNameMaxLength)]
+      [MaxLength(ValidationConstants.TeamNameMaxLength)]
         public string Name { get; set; } = null!;
 
+      
         [MaxLength(ValidationConstants.TeamLogoUrlMaxLength)]
-        public string? LogoUrl { get; set; }
+        public string LogoUrl { get; set; }
 
-
-        [Required]
         [MaxLength(ValidationConstants.TeamInitialsMaxLength)]
         public string Initials { get; set; } = null!;
 
@@ -47,22 +44,20 @@ namespace P02_FootballBetting.Data.Models
         // Town relations
         [ForeignKey(nameof(Town))]
         public int TownId { get; set; }
-
         public virtual Town Town { get; set; } = null!;
 
 
 
         // Game relations: many to many
-        [InverseProperty(nameof(Game.HomeTeam))]
+        //   [InverseProperty(nameof(Game.HomeTeam))]
         public virtual ICollection<Game> HomeGames { get; set; }
-        [InverseProperty(nameof(Game.AwayTeam))]
+      
+        //  [InverseProperty(nameof(Game.AwayTeam))]
         public virtual ICollection<Game> AwayGames { get; set; }
 
        
         
         // Player references
         public virtual ICollection<Player> Players { get; set; }
-
-
     }
 }

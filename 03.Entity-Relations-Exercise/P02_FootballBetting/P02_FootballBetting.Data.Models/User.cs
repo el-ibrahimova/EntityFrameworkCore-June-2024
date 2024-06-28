@@ -14,21 +14,17 @@ namespace P02_FootballBetting.Data.Models
         [Key]
         public int UserId { get; set; }
 
-        [Required]
         [MaxLength(ValidationConstants.UserUsernameMaxLength)]
         public string Username { get; set; } = null!;
 
-        [Required]
-        [MaxLength(ValidationConstants.UserNameMaxLength)]
+      [MaxLength(ValidationConstants.UserNameMaxLength)]
         public string Name { get; set; } = null!;
 
 
         // password are saved heshed in the DB
-        [Required]
-        [MaxLength(ValidationConstants.UserPasswordMaxLength)]
+       [MaxLength(ValidationConstants.UserPasswordMaxLength)]
         public string Password { get; set; } = null!;
 
-        [Required]
         [MaxLength(ValidationConstants.UserEmailMaxLength)]
         public string Email { get; set; } = null!;
 
