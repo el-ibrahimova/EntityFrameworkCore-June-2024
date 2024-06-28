@@ -4,8 +4,15 @@ namespace P01_HospitalDatabase.Data.Models
 {
     public class Patient
     {
+        public Patient()
+        {
+            this.Prescriptions = new HashSet<PatientMedicament>();
+            this.Visitations = new HashSet<Visitation>();
+            this.Diagnoses = new HashSet<Diagnose>();
+        }
+
         [Key]
-        public int PatientID { get; set; }
+        public int PatientId { get; set; }
 
 
         [MaxLength(50)] 
@@ -22,6 +29,11 @@ namespace P01_HospitalDatabase.Data.Models
         [MaxLength(80)]
         public string Email { get; set; }
 
-        public bool HasInsurance { get; set; }
+        public bool HasInsurance { get; set; } 
+
+        public virtual ICollection<PatientMedicament> Prescriptions { get; set; }
+        public virtual ICollection<Visitation> Visitations { get; set; }
+
+        public virtual ICollection<Diagnose> Diagnoses { get; set; }
     }
 }

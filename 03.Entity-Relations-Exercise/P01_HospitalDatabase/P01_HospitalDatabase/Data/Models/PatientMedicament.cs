@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace P01_HospitalDatabase.Data.Models
 {
-    internal class PatientMedicament
+    public class PatientMedicament
     {
+        public int PatientId { get; set; }
+        public virtual Patient Patient { get; set; }
+
+        
+        public int MedicamentId { get; set; }
+        public virtual Medicament Medicament { get; set;}
     }
 }
