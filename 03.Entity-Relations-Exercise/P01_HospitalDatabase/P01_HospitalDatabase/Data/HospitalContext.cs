@@ -32,8 +32,9 @@ namespace P01_HospitalDatabase.Data
         public DbSet<Visitation> Visitations { get; set; }
         public DbSet<Medicament> Medicaments { get; set; }
         public DbSet<PatientMedicament> PatientsMedicaments { get; set; }
+        public DbSet<Doctor> Doctor { get; set; }
 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Patient>()
