@@ -9,6 +9,7 @@ namespace ProductShop.DTOs.Import
 
         [JsonProperty("lastName")]
         public string LastName { get; set; } = null!;
+      
         [JsonProperty("age")]
         public int? Age { get; set; }
     }
