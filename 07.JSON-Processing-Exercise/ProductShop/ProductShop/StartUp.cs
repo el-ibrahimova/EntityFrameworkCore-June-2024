@@ -1,7 +1,10 @@
 ﻿using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProductShop.Data;
+using ProductShop.DTOs;
+using ProductShop.DTOs.Export;
 using ProductShop.Models;
 
 namespace ProductShop
@@ -101,49 +104,85 @@ namespace ProductShop
         }
 
 
-        // 05. Export products in range
+        // 05. Export products in range - solution with DTO
         public static string GetProductsInRange(ProductShopContext context)
         {
             var productsInRange = context.Products
                 .Where(p => p.Price >= 500 && p.Price <= 1000)
-                .Select(p => new
+                .Select(p => new ExportProductDto()
                 {
-                    name = p.Name,
-                    price = p.Price,
-                    seller = $"{p.Seller.FirstName} {p.Seller.LastName}"
+                    Name = p.Name,
+                    Price = p.Price,
+                    Seller = $"{p.Seller.FirstName} {p.Seller.LastName}"
                 })
-                .OrderBy(p => p.price)
+                .OrderBy(p => p.Price)
                 .ToArray();
 
-            var json = JsonConvert.SerializeObject(productsInRange, Formatting.Indented);
+            var settings = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
+
+            var json = JsonConvert.SerializeObject(productsInRange, settings);
             return json;
         }
 
-        // 06. Export Sold Products
+        // 06. Export Sold Products - solution with and without DTO
         public static string GetSoldProducts(ProductShopContext context)
         {
-            var userWithSoldProducts = context.Users
+            // solution without DTO
+
+            //var userWithSoldProducts = context.Users
+            //    .Where(u => u.ProductsSold.Any(p => p.BuyerId != null))
+            //    .OrderBy(u => u.LastName)
+            //    .ThenBy(u => u.FirstName)
+            //    .Select(u => new
+            //    {
+            //        firstName = u.FirstName,
+            //        lastName = u.LastName,
+            //        soldProducts = u.ProductsSold
+            //            .Where(b => b.BuyerId != null)
+            //            .Select(p => new
+            //            {
+            //                name = p.Name,
+            //                price = p.Price,
+            //                buyerFirstName = p.Buyer!.FirstName, // Buyer! = it is sure that Buyer is not null 
+            //                buyerLastName = p.Buyer.LastName
+            //            }).ToArray()
+            //    })
+            //    .ToArray();
+
+            //var jsonOutput = JsonConvert.SerializeObject(userWithSoldProducts, Formatting.Indented);
+            //return jsonOutput;
+            
+
+            // solution with DTO
+
+            var soldProducts = context.Users
                 .Where(u => u.ProductsSold.Any(p => p.BuyerId != null))
-                .OrderBy(u => u.LastName)
-                .ThenBy(u => u.FirstName)
-                .Select(u => new
+                .Select(u => new SellerWithProductsDto()
                 {
-                    firstName = u.FirstName,
-                    lastName = u.LastName,
-                    soldProducts = u.ProductsSold
-                        .Where(b => b.BuyerId != null)
-                        .Select(p => new
-                        {
-                            name = p.Name,
-                            price = p.Price,
-                            buyerFirstName = p.Buyer!.FirstName, // Buyer! = it is sure that Buyer is not null 
-                            buyerLastName = p.Buyer.LastName
-                        }).ToArray()
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    SoldProducts = u.ProductsSold
+                        .Select(p => new SoldProductsDto()
+                    {
+                        Name = p.Name,
+                        Price = p.Price,
+                        BuyerFirstName = p.Buyer.FirstName,
+                        BuyerLastName = p.Buyer.LastName
+                    })
                 })
+                .OrderBy(p => p.LastName)
+                .ThenBy(p => p.FirstName)
                 .ToArray();
 
-            var jsonOutput = JsonConvert.SerializeObject(userWithSoldProducts, Formatting.Indented);
-            return jsonOutput;
+            
+                string output = JsonConvert.SerializeObject(soldProducts, Formatting.Indented);
+                return output;
+
         }
 
         // 07. Export Categories by Products Count
