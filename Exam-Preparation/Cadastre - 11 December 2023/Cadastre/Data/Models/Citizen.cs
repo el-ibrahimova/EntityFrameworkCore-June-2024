@@ -5,7 +5,8 @@ using Cadastre.Data.Enumerations;
 namespace Cadastre.Data.Models
 {
     public class Citizen
-    { public Citizen()
+    {
+        public Citizen()
         {
             this.PropertiesCitizens = new HashSet<PropertyCitizen>();
         }
@@ -13,7 +14,7 @@ namespace Cadastre.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [ MaxLength(ValidationConstants.CitizenNameMaxLength)]
+        [MaxLength(ValidationConstants.CitizenNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [MaxLength(ValidationConstants.CitizenNameMaxLength)]
