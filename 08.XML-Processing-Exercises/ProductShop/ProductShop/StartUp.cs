@@ -4,8 +4,10 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.EntityFrameworkCore;
 using ProductShop.Data;
+using ProductShop.DTOs.Export;
 using ProductShop.DTOs.Import;
 using ProductShop.Models;
+using User = ProductShop.Models.User;
 
 namespace ProductShop
 {
@@ -27,9 +29,21 @@ namespace ProductShop
             // string categoriesXml = File.ReadAllText("../../../Datasets/categories.xml");
             // Console.WriteLine(ImportCategories(dbContext, categoriesXml));
 
-             // 04
-             // string categoriesProductsXml = File.ReadAllText("../../../Datasets/categories-products.xml");
-             // Console.WriteLine(ImportCategoryProducts(dbContext, categoriesProductsXml));
+            // 04
+            // string categoriesProductsXml = File.ReadAllText("../../../Datasets/categories-products.xml");
+            // Console.WriteLine(ImportCategoryProducts(dbContext, categoriesProductsXml));
+
+            // 05
+            // Console.WriteLine(GetProductsInRange(dbContext));
+
+            // 06
+            // Console.WriteLine(GetSoldProducts(dbContext));
+
+            // 07
+            // Console.WriteLine(GetCategoriesByProductsCount(dbContext));
+
+            // 08
+            Console.WriteLine(GetUsersWithProducts(dbContext));
         }
 
         // 01. Import Users
@@ -113,12 +127,12 @@ namespace ProductShop
         {
             XmlRootAttribute root = new XmlRootAttribute("CategoryProducts");
             XmlSerializer serializer = new XmlSerializer(typeof(ImportCategoryProductsDto[]), root);
-           
+
             using StringReader reader = new StringReader(inputXml);
 
             ImportCategoryProductsDto[] catProductsDtos = (ImportCategoryProductsDto[])serializer.Deserialize(reader);
 
-           List<CategoryProduct> catProducts = new List<CategoryProduct>();
+            List<CategoryProduct> catProducts = new List<CategoryProduct>();
 
             foreach (var entry in catProductsDtos)
             {
@@ -142,29 +156,101 @@ namespace ProductShop
         // 05. Export Products In Range
         public static string GetProductsInRange(ProductShopContext context)
         {
+            var productsInRange = context.Products
+                .Where(p => p.Price >= 500 && p.Price <= 1000)
+                .OrderBy(p => p.Price)
+                .Take(10)
+                .Select(p => new ExportProductsInRangeDto()
+                {
+                    Name = p.Name,
+                    Price = p.Price,
+                    BuyerFullName = p.BuyerId.HasValue
+                        ? $"{p.Buyer.FirstName} {p.Buyer.LastName}"
+                        : null
+                })
+                .ToArray();
 
-
-            return "";
+            return SerializeToXml(productsInRange, "Products");
         }
 
         // 06. Export Sold Products
         public static string GetSoldProducts(ProductShopContext context)
         {
-            return "";
+            ExportUserDto[] exportUsers = context.Users
+                .Where(u => u.ProductsSold.Any())
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .Take(5)
+                .Select(u => new ExportUserDto
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    ProductSold = u.ProductsSold.Select(p => new ExportProductsDto()
+                    {
+                        Name = p.Name,
+                        Price = p.Price
+                    }).ToArray()
+                }).ToArray();
+
+            return SerializeToXml(exportUsers, "Users");
         }
 
         // 07. Export Categories By Products Count
         public static string GetCategoriesByProductsCount(ProductShopContext context)
         {
-            return "";
+            var categoriesByProductCount = context.Categories
+                .Select(c => new ExportCategoriesByProductsCountDto()
+                {
+                    Name = c.Name,
+                    Count = c.CategoryProducts.Count,
+                    AveragePrice = c.CategoryProducts.Count > 0
+                        ? c.CategoryProducts.Average(c => c.Product.Price)
+                        : 0,
+                    TotalRevenue = c.CategoryProducts.Sum(p => p.Product.Price)
+                })
+                .OrderByDescending(c => c.Count)
+                .ThenBy(c => c.TotalRevenue)
+                .ToArray();
+
+            return SerializeToXml(categoriesByProductCount, "Categories");
         }
 
         // 08. Export Users and Products
         public static string GetUsersWithProducts(ProductShopContext context)
         {
-            return "";
+            var usersProducts = context.Users
+                .Where(u => u.ProductsSold.Any())
+                .OrderByDescending(u => u.ProductsSold.Count)
+                .Take(10)
+                .AsNoTracking()
+                .Select(u => new ExportUsersWithProducts()
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Age = u.Age,
+                    SoldProducts = new ExportSoldProductsDto()
+                    {
+                        Count = u.ProductsSold.Count,
+                        Products = u.ProductsSold
+                            .Select(p => new ExportProductsDto()
+                            {
+                                Name = p.Name,
+                                Price = p.Price
+                            })
+                            .OrderByDescending(p => p.Price)
+                            .ToArray()
+                    }
+                })
+                .ToArray();
+            
+            ExportUsersProductsDto result = new ExportUsersProductsDto()
+            {
+                Count = context.Users.Count(u => u.ProductsSold.Any()),
+                UsersWithProducts = usersProducts
+            };
+            
+            return SerializeToXml(result, "Users");
         }
-
 
 
         public static string SerializeToXml<T>(T obj, string rootName, bool omitXmlDeclaration = false)
