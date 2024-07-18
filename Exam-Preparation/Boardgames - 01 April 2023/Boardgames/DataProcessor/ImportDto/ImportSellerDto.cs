@@ -30,6 +30,5 @@ namespace Boardgames.DataProcessor.ImportDto
 
         [JsonProperty("Boardgames")]
         public int[] BoardgamesIds { get; set; }
-
     }
 }

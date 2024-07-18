@@ -25,11 +25,11 @@
 
         private static void ImportEntities(BoardgamesContext context, string baseDir, string exportDir)
         {
-            //var creators =
-            //    DataProcessor.Deserializer.ImportCreators(context,
-            //        File.ReadAllText(baseDir + "creators.xml"));
+            var creators =
+               DataProcessor.Deserializer.ImportCreators(context,
+                    File.ReadAllText(baseDir + "creators.xml"));
 
-            //PrintAndExportEntityToFile(creators, exportDir + "Actual Result - ImportCreators.txt");
+            PrintAndExportEntityToFile(creators, exportDir + "Actual Result - ImportCreators.txt");
 
             var sellers =
              DataProcessor.Deserializer.ImportSellers(context,
