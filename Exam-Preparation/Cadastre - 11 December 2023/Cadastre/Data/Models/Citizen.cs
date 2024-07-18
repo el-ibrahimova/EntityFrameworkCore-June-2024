@@ -14,12 +14,14 @@ namespace Cadastre.Data.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         [MaxLength(ValidationConstants.CitizenNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [MaxLength(ValidationConstants.CitizenNameMaxLength)]
         public string LastName { get; set; } = null!;
 
+        [Required]
         public DateTime BirthDate { get; set; }
 
         [Required]

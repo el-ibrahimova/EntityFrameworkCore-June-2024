@@ -32,6 +32,7 @@ namespace Cadastre.DataProcessor.ImportDtos
 
         [JsonProperty("MaritalStatus")]
         [Required]
+        [EnumDataType(typeof(MaritalStatus))]
         public string MaritalStatus { get; set; } = null!;
 
         [JsonProperty("Properties")] 

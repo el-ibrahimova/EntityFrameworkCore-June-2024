@@ -6,11 +6,13 @@ namespace Cadastre.Data.Models
     {
         [ForeignKey(nameof(Property))]
         public int PropertyId { get; set; }
-        public Property Property { get; set; }
+
+        public Property Property { get; set; } = null!;
 
 
         [ForeignKey(nameof(Citizen))]
         public int CitizenId { get; set; }
-        public Citizen Citizen { get; set;}
+
+        public Citizen Citizen { get; set; } = null!;
     }
 }
