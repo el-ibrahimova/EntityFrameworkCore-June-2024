@@ -14,7 +14,8 @@ namespace Medicines.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(ValidationConstants.PatientFullNameMaxLength)] 
+        [MaxLength(ValidationConstants.PatientFullNameMaxLength)]
+        [Required]
         public string FullName { get; set; } = null!;
 
         [Required]

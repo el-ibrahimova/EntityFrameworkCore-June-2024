@@ -16,19 +16,24 @@ namespace Medicines.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [ MaxLength(ValidationConstants.MedicineNameMaxLength)] 
+        [MaxLength(ValidationConstants.MedicineNameMaxLength)]
+        [Required]
         public string Name { get; set; } = null!;
 
-        [Range(0.01, 1000.00)]
+        [Required]
         public decimal Price { get; set; }
 
         [Required]
         public Category Category { get; set; }
 
+        [Required]
         public DateTime ProductionDate { get; set; }
+
+        [Required]
         public DateTime ExpiryDate { get; set; }
 
         [MaxLength(ValidationConstants.MedicineProducerNameMaxLength)]
+        [Required]
         public string Producer { get; set; } = null!;
 
         [ForeignKey(nameof(Pharmacy))]

@@ -16,9 +16,11 @@ namespace Medicines.Data.Models
         public int Id { get; set; }
 
         [MaxLength(ValidationConstants.PharmacyNameMaxLength)]
+        [Required]
         public string Name { get; set; } = null!;
 
-        [MaxLength(14)]
+        [MaxLength(ValidationConstants.PharmacyPhoneNumberMaxLength)]
+        [Required]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]

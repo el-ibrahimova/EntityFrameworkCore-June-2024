@@ -30,11 +30,7 @@ namespace Medicines.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pharmacy>()
-                .Property(p => p.PhoneNumber)
-                .HasAnnotation("RegularExpression", "(d{3}) d{3}-d{4}");
-
-            modelBuilder.Entity<PatientMedicine>()
+                      modelBuilder.Entity<PatientMedicine>()
                 .HasKey(pm => new { pm.PatientId, pm.MedicineId});
 
         }

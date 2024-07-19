@@ -1,14 +1,20 @@
-﻿namespace Medicines.Common
+﻿using System.Runtime.CompilerServices;
+
+namespace Medicines.Common
 {
     public static class ValidationConstants
     {
         //Pharmacy
         public const int PharmacyNameMaxLength = 50;
         public const int PharmacyNameMinLength = 2;
-     
+        public const int PharmacyPhoneNumberMaxLength = 14;
+        public const string PharmacyPhoneNumberRegEx = @"\(\d{3}\) \d{3}-\d{4}";
+
         //Medicine
         public const int MedicineNameMaxLength = 150;
         public const int MedicineNameMinLength = 3;
+        public const double MedicinePriceMinValue = 0.01;
+        public const double MedicinePriceMaxValue = 1000.00;
         public const int MedicineProducerNameMaxLength = 100;
         public const int MedicineProducerNameMinLength = 3;
         public const int MedicineCategoryMinValue = 0;
