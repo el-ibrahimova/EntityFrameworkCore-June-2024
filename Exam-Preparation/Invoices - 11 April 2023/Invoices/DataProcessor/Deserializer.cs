@@ -29,10 +29,10 @@ namespace Invoices.DataProcessor
         public static string ImportClients(InvoicesContext context, string xmlString)
         {
             XmlRootAttribute root = new XmlRootAttribute("Clients");
-            XmlSerializer serializier = new XmlSerializer(typeof(ImportClientsDto[]), root);
+            XmlSerializer serializer = new XmlSerializer(typeof(ImportClientsDto[]), root);
 
             using StringReader reader = new StringReader(xmlString);
-            var clientsDtos = (ImportClientsDto[])serializier.Deserialize(reader);
+            var clientsDtos = (ImportClientsDto[])serializer.Deserialize(reader);
 
             List<Client> validClients = new();
             StringBuilder sb = new();
@@ -100,16 +100,42 @@ namespace Invoices.DataProcessor
                     sb.AppendLine(ErrorMessage);
                     continue;
                 }
+   
+                
+                
+                // variant 1
+                
+                // check if string IssueDate parse to DateTime issueDate
+                bool isIssueDateValid = DateTime.TryParse(invoiceDto.IssueDate, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out DateTime issueDate);
+                bool isDueDateValid = DateTime.TryParse(invoiceDto.IssueDate, CultureInfo.InvariantCulture,
+                    DateTimeStyles.None, out DateTime dueDate);
+                
+                // check whether they are valid and whether startDate is before dueDate
+                if (isDueDateValid == false 
+                    || isDueDateValid == false
+                    || DateTime.Compare(dueDate, issueDate)<0)
 
-                DateTime startDate = DateTime.ParseExact(invoiceDto.IssueDate, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
-                DateTime endDate = DateTime.ParseExact(invoiceDto.DueDate, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
-
-                // check for start and end date to be right
-                if (startDate >= endDate)
+                    // DateTime.Compare(t1, t2)
+                // -> -1 = t1 is before t2
+                // ->  0 = t1 is t2
+                // ->  1 = t1 is after t2
                 {
                     sb.AppendLine(ErrorMessage);
                     continue;
                 }
+                
+                //// variant 2
+
+                //DateTime startDate = DateTime.ParseExact(invoiceDto.IssueDate, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+                //DateTime endDate = DateTime.ParseExact(invoiceDto.DueDate, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+
+                //// check for start and end date to be right
+                //if (startDate >= endDate)
+                //{
+                //    sb.AppendLine(ErrorMessage);
+                //    continue;
+                //}
 
                 // check for ClientId to be valid
                 if (!validClientIds.Contains(invoiceDto.ClientId))
@@ -121,8 +147,8 @@ namespace Invoices.DataProcessor
                 Invoice newInvoice = new Invoice()
                 {
                     Number = invoiceDto.Number,
-                    IssueDate = startDate,
-                    DueDate = endDate,
+                    IssueDate = issueDate,
+                    DueDate = dueDate,
                     Amount = invoiceDto.Amount,
                     CurrencyType = (CurrencyType)invoiceDto.CurrencyType,
                     ClientId = invoiceDto.ClientId
@@ -151,7 +177,7 @@ namespace Invoices.DataProcessor
                     sb.AppendLine(ErrorMessage);
                     continue;
                 }
-
+                
                 Product newProduct = new Product()
                 {
                     Name = productDto.Name,
