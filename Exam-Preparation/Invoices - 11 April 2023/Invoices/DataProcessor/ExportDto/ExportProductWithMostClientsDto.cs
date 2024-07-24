@@ -7,10 +7,8 @@ namespace Invoices.DataProcessor.ExportDto
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
 
-        [JsonProperty("Category")] 
-        public string Category { get; set; } = null!;
+       public string Category { get; set; } = null!;
 
-        [JsonProperty("Clients")] 
-        public ExportClientsDto[] Clients { get; set; } = null!;
+      public ExportClientsDto[] Clients { get; set; } = null!;
     }
 }

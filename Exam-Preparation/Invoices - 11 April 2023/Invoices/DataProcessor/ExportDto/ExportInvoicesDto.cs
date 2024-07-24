@@ -1,19 +1,21 @@
 ﻿using System.Xml.Serialization;
+using Invoices.Data.Models;
 
 namespace Invoices.DataProcessor.ExportDto
 {
-    [XmlType("Invoice")]
+    [XmlType(nameof(Invoice))]
     public  class ExportInvoicesDto
     {
-        [XmlElement("InvoiceNumber")] 
+        [XmlElement(nameof(InvoiceNumber))] 
         public int InvoiceNumber { get; set; }
 
-        [XmlElement("InvoiceAmount")]
-        public decimal Amount { get; set; }
+        [XmlElement(nameof(InvoiceAmount))]
+        public decimal InvoiceAmount { get; set; }
 
+        [XmlElement(nameof(DueDate))]
         public string DueDate { get; set; } = null!;
 
-        [XmlElement("Currency")]
+        [XmlElement(nameof(Currency))]
         public string Currency { get; set; } = null!;
     }
 }
