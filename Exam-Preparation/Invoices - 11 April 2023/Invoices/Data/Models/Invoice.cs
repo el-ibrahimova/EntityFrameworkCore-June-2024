@@ -9,25 +9,25 @@ namespace Invoices.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+       // int is required by default
         public int Number { get; set; }
 
-        [Required]
+       // DateTime is required by default
         public DateTime IssueDate { get; set; }
 
-        [Required]
+       
+        // DateTime is required by default
         public DateTime DueDate { get; set; }
 
-        [Required]
+       //decimal is required by default
         public decimal Amount { get; set; }
 
-        [Required]
+        // Enumeration is stored in the DB as int = > required by default
         public CurrencyType CurrencyType { get; set; }
 
-        [Required]
+       
+        [ForeignKey(nameof(Client))]
         public int ClientId { get; set; }
-
-        [ForeignKey(nameof(ClientId))]
-        public Client Client { get; set; } = null!;
+       public Client Client { get; set; } = null!;
     }
 }
