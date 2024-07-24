@@ -4,26 +4,32 @@ using static Invoices.Common.ValidationConstants;
 
 namespace Invoices.DataProcessor.ImportDto
 {
-    [XmlType("Address")]
+    using Data.Models;
+
+    [XmlType(nameof(Address))]
     public class ImportAddressesDto
     {
+        [XmlElement(nameof(StreetNumber))]
         [Required]
         [MinLength(AddressStreetNameMinLength)]
         [MaxLength(AddressStreetNameMaxLength)]
         public string StreetName { get; set; } = null!;
 
-        [Required] 
+       [XmlElement(nameof(StreetNumber))] 
+       [Required]
         public int StreetNumber { get; set; }
 
-        [Required]
-        [MaxLength(AddressPostCodeMaxLength)]
+         [XmlElement(nameof(PostCode))] 
+         [Required]
         public string PostCode { get; set; } = null!;
 
-        [Required]
+         [XmlElement(nameof(City))]   
+         [Required]
         [MinLength(AddressCityMinLength)]
         [MaxLength(AddressCityMaxLength)]
         public string City { get; set; } = null!;
 
+        [XmlElement(nameof(Country))] 
         [Required]
         [MinLength(AddressCountryMinLength)]
         [MaxLength(AddressCountryMaxLength)]

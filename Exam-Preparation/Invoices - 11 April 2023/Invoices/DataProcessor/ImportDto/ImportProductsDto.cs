@@ -12,13 +12,14 @@ namespace Invoices.DataProcessor.ImportDto
         public string Name { get; set; } = null!;
 
         [Required]
-        [Range(ProductPriceMinValue, ProductPriceMaxValue)]
+        [Range(typeof(decimal),ProductPriceMinValue, ProductPriceMaxValue)]  // cast the string to type decimal, because we cannot use decimal as a type in validationConstants
         public decimal Price { get; set; }
 
         [Required]
         [Range(ProductCategoryTypeMinValue, ProductCategoryTypeMaxValue)]
         public int CategoryType { get; set; }
-
+        
+        [Required]
         public int[] Clients { get; set; } = null!;
 
 
