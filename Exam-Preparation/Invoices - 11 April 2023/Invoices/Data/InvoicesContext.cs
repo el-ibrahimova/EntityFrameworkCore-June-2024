@@ -20,6 +20,7 @@ namespace Invoices.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
+                    .UseLazyLoadingProxies()  // activate Lazy Loading
                     .UseSqlServer(Configuration.ConnectionString);
             }
         }
@@ -33,12 +34,11 @@ namespace Invoices.Data
 
         public DbSet<ProductClient> ProductsClients { get; set; } = null!;
 
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProductClient>(е=>
-            е.HasKey(p => new { p.ClientId, p.ProductId }));
+            modelBuilder.Entity<ProductClient>()
+                .HasKey(p => new { p.ClientId, p.ProductId });
         }
     }
 }

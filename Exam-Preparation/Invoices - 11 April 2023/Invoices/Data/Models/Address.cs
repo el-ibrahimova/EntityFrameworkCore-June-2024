@@ -11,23 +11,22 @@ namespace Invoices.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(AddressStreetNameMaxLength)]
-        public string StreetName { get; set; } = null!;
+        [MaxLength(AddressStreetNameMaxLength)]    // NVARCHAR(20)
+        public string StreetName { get; set; } = null!; 
 
-        [Required]
+        [Required] // int by default is required
         public int StreetNumber { get; set; }
 
         [Required] 
-        [MaxLength(AddressPostCodeMaxLength)] 
-        public string PostCode { get; set; } = null!;
+       public string PostCode { get; set; } = null!;  // NVARCHAR(MAX)
 
         [Required]
-        [MaxLength(AddressCityMaxLength)]
+        [MaxLength(AddressCityMaxLength)]    // NVARCHAR(15)
         public string City { get; set; } = null!;
 
         [Required]
-        [MaxLength(AddressCountryMaxLength)]
-        public string Country { get; set; } = null!;
+        [MaxLength(AddressCountryMaxLength)]    // NVARCHAR(15)
+        public string Country { get; set; } = null!;  
 
      
         [ForeignKey(nameof(Client))]

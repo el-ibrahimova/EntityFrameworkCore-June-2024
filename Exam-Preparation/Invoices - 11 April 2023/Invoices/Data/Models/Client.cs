@@ -5,27 +5,20 @@ namespace Invoices.Data.Models
 {
     public class Client
     {
-        public Client()
-        {
-            this.Invoices = new HashSet<Invoice>();
-            this.Addresses = new HashSet<Address>();
-            this.ProductsClients = new HashSet<ProductClient>();
-        }
-
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ValidationConstants.ClientNameMaxLength)]
+        [MaxLength(ValidationConstants.ClientNameMaxLength)]  // NVARCHAR(25)
         public string Name { get; set; } = null!;
 
         [Required]
-        [MaxLength(ValidationConstants.ClientNumberVatMaxLength)]
+        [MaxLength(ValidationConstants.ClientNumberVatMaxLength)]  // NVARCHAR(15)
         public string NumberVat { get; set; } = null!;
 
-        public virtual ICollection<Invoice> Invoices { get; set; } = null!;
-        public virtual ICollection<Address> Addresses { get; set; } = null!;
+        public virtual ICollection<Invoice> Invoices { get; set; } = new HashSet<Invoice>();
+        public virtual ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
 
-        public virtual ICollection<ProductClient> ProductsClients { get; set; } = null!;
+        public virtual ICollection<ProductClient> ProductsClients { get; set; } = new HashSet<ProductClient>();
     }
 }
