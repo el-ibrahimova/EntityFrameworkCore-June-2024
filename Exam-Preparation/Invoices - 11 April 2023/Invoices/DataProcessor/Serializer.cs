@@ -28,13 +28,13 @@ namespace Invoices.DataProcessor
                         .Select(i => new ExportInvoicesDto()
                         {
                             InvoiceNumber = i.Number,
-                            Amount = i.Amount,
+                            InvoiceAmount = i.Amount,
                             DueDate = i.DueDate.ToString("d", CultureInfo.InvariantCulture),
                             Currency = i.CurrencyType.ToString()
                         })
                         .ToArray()
                 })
-                .OrderByDescending(c => c.Invoices.Length)
+                .OrderByDescending(c => c.InvoicesCount)
                 .ThenBy(c => c.ClientName)
                 .ToArray();
 
