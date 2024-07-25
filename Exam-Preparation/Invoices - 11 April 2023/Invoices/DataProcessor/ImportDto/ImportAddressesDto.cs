@@ -9,7 +9,7 @@ namespace Invoices.DataProcessor.ImportDto
     [XmlType(nameof(Address))]
     public class ImportAddressesDto
     {
-        [XmlElement(nameof(StreetNumber))]
+        [XmlElement(nameof(StreetName))]
         [Required]
         [MinLength(AddressStreetNameMinLength)]
         [MaxLength(AddressStreetNameMaxLength)]
