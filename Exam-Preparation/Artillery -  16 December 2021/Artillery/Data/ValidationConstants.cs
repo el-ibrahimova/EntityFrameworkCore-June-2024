@@ -1,4 +1,6 @@
-﻿namespace Artillery.Data
+﻿using Artillery.Data.Models.Enums;
+
+namespace Artillery.Data
 {
     public static class ValidationConstants
     {
@@ -10,7 +12,7 @@
 
         // Shell
         public const string ShellWeightMinValue = "2";
-        public const string ShellWeightMaxValue = "1_680";
+        public const string ShellWeightMaxValue = "1680";
         public const int ShellCaliberMinLength = 4;
         public const int ShellCaliberMaxLength = 30;
 
@@ -21,6 +23,8 @@
         public const string GunBarrelMaxValue = "35.00";
         public const int GunRangeMinValue = 1;
         public const int GunRangeMaxValue = 100_000;
+       public const int GunTypeMinValue = (int)GunType.Howitzer;
+        public const int GunTypeMaxValue = (int)GunType.AntiTankGun;
 
         // Manufacturer
         public const int ManufacturerNameMinLength = 4;

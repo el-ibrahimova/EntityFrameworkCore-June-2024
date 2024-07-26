@@ -2,7 +2,10 @@
 using System.Text;
 using System.Xml.Serialization;
 using Artillery.Data.Models;
+using Artillery.Data.Models.Enums;
 using Artillery.DataProcessor.ImportDto;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Artillery.DataProcessor
 {
@@ -109,12 +112,86 @@ namespace Artillery.DataProcessor
 
         public static string ImportShells(ArtilleryContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            XmlRootAttribute root = new XmlRootAttribute("Shells");
+            XmlSerializer serializer = new XmlSerializer(typeof(ImportShellDto[]), root);
+
+            using StringReader reader = new StringReader(xmlString);
+
+            var shellsDtos = (ImportShellDto[])serializer.Deserialize(reader);
+
+            List<Shell> validShells = new();
+            StringBuilder sb = new();
+
+            foreach (var shellDto in shellsDtos)
+            {
+                if (!IsValid(shellDto))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Shell shell = new Shell()
+                {
+                    ShellWeight = shellDto.ShellWeight,
+                    Caliber = shellDto.Caliber
+                };
+
+                validShells.Add(shell);
+                sb.AppendLine(string.Format(SuccessfulImportShell, shell.Caliber, shell.ShellWeight));
+            }
+
+            context.Shells.AddRange(validShells);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         public static string ImportGuns(ArtilleryContext context, string jsonString)
         {
-            throw new NotImplementedException();
+            var gunsDtos = JsonConvert.DeserializeObject<ImportGunDto[]>(jsonString);
+
+            List<Gun> validGuns = new();
+            StringBuilder sb = new();
+
+            // create string [] with possible enum values. It shows error if i add constraint in dto for possible int values 0-5 
+            string[] validGunTypes = { "Howitzer", "Mortar", "FieldGun", "AntiAircraftGun", "MountainGun", "AntiTankGun" };
+
+            foreach (var gunDto in gunsDtos)
+            {
+                if (!IsValid(gunDto) || !validGunTypes.Contains(gunDto.GunType))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Gun gun = new Gun()
+                {
+                    ManufacturerId = gunDto.ManufacturerId,
+                    GunWeight = gunDto.GunWeight,
+                    BarrelLength = gunDto.BarrelLength,
+                    NumberBuild = gunDto.NumberBuild,
+                    Range = gunDto.Range,
+                    GunType = (GunType)Enum.Parse(typeof(GunType), gunDto.GunType),
+                    ShellId = gunDto.ShellId
+                };
+
+                foreach (var countryId in gunDto.Countries)
+                {
+                    CountryGun countryGun = new CountryGun()
+                    {
+                        CountryId = countryId.Id,
+                        Gun = gun,
+                    };
+                    gun.CountriesGuns.Add(countryGun);
+                }
+                sb.AppendLine(string.Format(SuccessfulImportGun, gun.GunType, gun.GunWeight, gun.BarrelLength));
+                validGuns.Add(gun);
+            }
+            
+            context.Guns.AddRange(validGuns);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
         private static bool IsValid(object obj)
         {

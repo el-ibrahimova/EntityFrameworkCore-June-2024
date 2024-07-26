@@ -40,14 +40,14 @@
                File.ReadAllText(baseDir + "manufacturers.xml"));
             PrintAndExportEntityToFile(importManufacturers, exportDir + "Actual Result - ImportMnufacturers.txt");
 
-            //    var importShells = DataProcessor.Deserializer.ImportShells(context,
-            //      File.ReadAllText(baseDir + "shells.xml"));
-            //    PrintAndExportEntityToFile(importShells, exportDir + "Actual Result - ImportShells.txt");
+            var importShells = DataProcessor.Deserializer.ImportShells(context,
+              File.ReadAllText(baseDir + "shells.xml"));
+            PrintAndExportEntityToFile(importShells, exportDir + "Actual Result - ImportShells.txt");
 
-            //    var importGuns =
-            //        DataProcessor.Deserializer.ImportGuns(context,
-            //            File.ReadAllText(baseDir + "guns.json"));
-            //    PrintAndExportEntityToFile(importGuns, exportDir + "Actual Result - ImportGuns.txt");
+            var importGuns =
+                DataProcessor.Deserializer.ImportGuns(context,
+                    File.ReadAllText(baseDir + "guns.json"));
+            PrintAndExportEntityToFile(importGuns, exportDir + "Actual Result - ImportGuns.txt");
 
         }
 

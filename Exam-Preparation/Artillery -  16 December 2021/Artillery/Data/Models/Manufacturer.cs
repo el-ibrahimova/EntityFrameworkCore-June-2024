@@ -4,6 +4,10 @@ namespace Artillery.Data.Models
 {
     public class Manufacturer
     {
+        public Manufacturer()
+        {
+            Guns = new HashSet<Gun>();
+        }
         [Key]
         public int Id { get; set; }
 
@@ -15,7 +19,7 @@ namespace Artillery.Data.Models
         [MaxLength(ValidationConstants.ManufacturerFoundedMaxLength)]
         public string Founded { get; set; } = null!;
 
-        public virtual ICollection<Gun> Guns { get; set; } = new HashSet<Gun>();
+        public virtual ICollection<Gun> Guns { get; set; } 
 
     }
 }

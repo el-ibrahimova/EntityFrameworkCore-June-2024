@@ -4,6 +4,11 @@ namespace Artillery.Data.Models
 {
     public class Country
     {
+        public Country()
+        {
+            CountriesGuns = new HashSet<CountryGun>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -14,7 +19,7 @@ namespace Artillery.Data.Models
         [Required]
         public int ArmySize { get; set; }
 
-        public virtual ICollection<CountryGun> CountriesGuns { get; set; } = new HashSet<CountryGun>();
+        public virtual ICollection<CountryGun> CountriesGuns { get; set; }
 
     }
 }
