@@ -20,7 +20,7 @@
 
             ImportEntities(context, projectDir + @"Datasets/", projectDir + @"ImportResults/");
 
-            //ExportEntities(context, projectDir + @"ExportResults/");
+            ExportEntities(context, projectDir + @"ExportResults/");
 
             using (var transaction = context.Database.BeginTransaction())
             {
@@ -51,16 +51,16 @@
 
         }
 
-            //private static void ExportEntities(ArtilleryContext context, string exportDir)
-            //{
-            //    var exportShells = DataProcessor.Serializer.ExportShells(context, 100);
-            //    Console.WriteLine(exportShells);
-            //    File.WriteAllText(exportDir + "Actual Result - ExportShells.json", exportShells);
+        private static void ExportEntities(ArtilleryContext context, string exportDir)
+        {
+            var exportShells = DataProcessor.Serializer.ExportShells(context, 100);
+            Console.WriteLine(exportShells);
+            File.WriteAllText(exportDir + "Actual Result - ExportShells.json", exportShells);
 
-            //    var exportActors = DataProcessor.Serializer.ExportGuns(context, "Krupp");
-            //    Console.WriteLine(exportActors);
-            //    File.WriteAllText(exportDir + "Actual Result - ExportGuns.xml", exportActors);
-            //}
+            var exportActors = DataProcessor.Serializer.ExportGuns(context, "Krupp");
+            Console.WriteLine(exportActors);
+            File.WriteAllText(exportDir + "Actual Result - ExportGuns.xml", exportActors);
+        }
 
             private static void ResetDatabase(ArtilleryContext context, bool shouldDropDatabase = false)
         {
