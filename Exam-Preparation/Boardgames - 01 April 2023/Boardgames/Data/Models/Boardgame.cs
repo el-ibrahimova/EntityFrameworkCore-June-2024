@@ -13,6 +13,7 @@ namespace Boardgames.Data.Models
         {
             BoardgamesSellers = new HashSet<BoardgameSeller>();
         }
+      
         [Key]
         public int Id { get; set; }
 
