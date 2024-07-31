@@ -18,8 +18,8 @@ namespace Theatre.DataProcessor.ImportDto
         public string Duration { get; set; } = null!;
 
         [Required]
-        [XmlElement(nameof(Rating))]
-        [Range(0, 10)]
+        [XmlElement("Raiting")] // there is a typo mistake in the element name - in the output must be Raiting - we have to write it this way to work!!!
+        [Range(0.00, 10.00)]
         public float Rating { get; set; }
 
         [Required]
