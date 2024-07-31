@@ -22,7 +22,10 @@ namespace Theatre
 
            ImportEntities(context, projectDir + @"Datasets/", projectDir + @"ImportResults/");
 
-           // ExportEntities(context, projectDir + @"ExportResults/");
+
+
+            // wrong output because of exception for ImportTheatersTickets method for duplicated values
+            ExportEntities(context, projectDir + @"ExportResults/");
 
             using (var transaction = context.Database.BeginTransaction())
             {
@@ -42,23 +45,22 @@ namespace Theatre
                File.ReadAllText(baseDir + "casts.xml"));
             PrintAndExportEntityToFile(casts, exportDir + "Actual Result - ImportCasts.txt");
 
-            //    var plays =
-            //        DataProcessor.Deserializer.ImportTtheatersTickets(context,
-            //            File.ReadAllText(baseDir + "theatres-and-tickets.json"));
-            //    PrintAndExportEntityToFile(plays, exportDir + "Actual Result - ImportTheatresTickets.txt");
+            var plays =
+                DataProcessor.Deserializer.ImportTtheatersTickets(context,
+                    File.ReadAllText(baseDir + "theatres-and-tickets.json"));
+            PrintAndExportEntityToFile(plays, exportDir + "Actual Result - ImportTheatresTickets.txt");
 
         }
 
-        //private static void ExportEntities(TheatreContext context, string exportDir)
-        //{
-        //    var exportTheaters = DataProcessor.Serializer.ExportTheatres(context, 6);
-        //    Console.WriteLine(exportTheaters);
-        //    File.WriteAllText(exportDir + "Actual Result - ExportTheatres.json", exportTheaters);
+        private static void ExportEntities(TheatreContext context, string exportDir)
+        {
+            var exportTheaters = DataProcessor.Serializer.ExportTheatres(context, 6);
+            Console.WriteLine(exportTheaters);
+           File.WriteAllText(exportDir + "Actual Result - ExportTheatres.json", exportTheaters);
 
-        //    var exportActors = DataProcessor.Serializer.ExportPlays(context, 7.5);
-        //    Console.WriteLine(exportActors);
-        //    File.WriteAllText(exportDir + "Actual Result - ExportActors.xml", exportActors);
-        //}
+            var exportActors = DataProcessor.Serializer.ExportPlays(context, 7.5);
+            Console.WriteLine(exportActors);
+        }
 
         private static void ResetDatabase(TheatreContext context, bool shouldDropDatabase = false)
         {

@@ -21,8 +21,7 @@ namespace Theatre.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseLazyLoadingProxies()
-                    .UseSqlServer(Configuration.ConnectionString);
+                 .UseSqlServer(Configuration.ConnectionString);
             }
         }
 
