@@ -58,7 +58,7 @@
             File.WriteAllText(exportDir + "Actual Result - ExportMostBusiestEmployees.json", exportMostBusiestEmployees);
         }
 
-        private static void ResetDatabase(TeisterMaskContext context, bool shouldDropDatabase = false)
+            private static void ResetDatabase(TeisterMaskContext context, bool shouldDropDatabase = false)
         {
             if (shouldDropDatabase)
             {
