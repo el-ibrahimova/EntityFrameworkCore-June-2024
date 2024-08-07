@@ -24,9 +24,9 @@ var serviceProvider = new ServiceCollection()
 using var scope = serviceProvider.CreateScope();
 ICinemaService? service = scope.ServiceProvider.GetService<ICinemaService>();
 
-if (service != null)
-{
-    var cinema = new CinemaModel("Capitol", "Sofia, Car Boris III");
+//if (service != null)
+//{
+//    var cinema = new CinemaModel("Capitol", "Sofia, Car Boris III");
 
-    await service.AddCinemaAsync(cinema);
-}
+//    await service.AddCinemaAsync(cinema);
+//}
