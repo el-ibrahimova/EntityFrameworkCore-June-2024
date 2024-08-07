@@ -17,11 +17,11 @@ namespace CinemaApp.Data.Models
         public decimal Price { get; set; }
 
 
-        [ForeignKey(nameof(FilmId))]
-        public Film Film { get; set; } = null!;
+        [ForeignKey(nameof(MovieId))]
+        public Movie Movie { get; set; } = null!;
        
         [Required]
-        public int FilmId { get; set; }
+        public int MovieId { get; set; }
 
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
     }

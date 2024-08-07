@@ -2,7 +2,7 @@
 
 namespace CinemaApp.Data.Models
 {
-    public class Film
+    public class Movie
     {
         [Key]
         public int Id { get; set; }

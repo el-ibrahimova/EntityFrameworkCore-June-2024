@@ -15,11 +15,11 @@ namespace CinemaApp.Data.Models
         [Required]
         public DateTime End { get; set; }
 
-        [ForeignKey(nameof(FilmId))]
-        public Film Film { get; set; } = null!; 
+        [ForeignKey(nameof(MovieId))]
+        public Movie Movie { get; set; } = null!; 
         
         [Required]
-        public int FilmId { get; set; }
+        public int MovieId { get; set; }
 
    
         [ForeignKey(nameof(HallId))]
