@@ -1,4 +1,4 @@
-﻿namespace CinemaApp.Data.Common
+﻿namespace CinemaApp.Infrastructure.Data.Common
 {
     public interface IRepository : IDisposable
     {

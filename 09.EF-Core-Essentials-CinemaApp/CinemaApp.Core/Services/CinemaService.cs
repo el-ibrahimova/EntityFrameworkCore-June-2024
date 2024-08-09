@@ -1,9 +1,9 @@
-﻿using CinemaApp.Contracts;
-using CinemaApp.Data.Common;
-using CinemaApp.Data.Models;
-using CinemaApp.Models;
+﻿using CinemaApp.Core.Contracts;
+using CinemaApp.Core.Models;
+using CinemaApp.Infrastructure.Data.Common;
+using CinemaApp.Infrastructure.Data.Models;
 
-namespace CinemaApp.Services
+namespace CinemaApp.Core.Services
 {
     public class CinemaService : ICinemaService
     {

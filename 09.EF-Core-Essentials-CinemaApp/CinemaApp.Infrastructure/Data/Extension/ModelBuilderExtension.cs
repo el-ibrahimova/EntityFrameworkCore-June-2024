@@ -1,8 +1,8 @@
-﻿using CinemaApp.Data.Configuration;
-using CinemaApp.Data.Models;
+﻿using CinemaApp.Infrastructure.Data.Configuration;
+using CinemaApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CinemaApp.Data.Extention
+namespace CinemaApp.Infrastructure.Data.Extension
 {
     public static class ModelBuilderExtension
     {

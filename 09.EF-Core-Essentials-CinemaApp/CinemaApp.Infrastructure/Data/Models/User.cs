@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CinemaApp.Data.Models
+namespace CinemaApp.Infrastructure.Data.Models
 {
     public class User
     {

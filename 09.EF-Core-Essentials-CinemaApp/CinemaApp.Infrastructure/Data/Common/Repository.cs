@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CinemaApp.Data.Common
+namespace CinemaApp.Infrastructure.Data.Common
 {
     public class Repository : IRepository
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace CinemaApp.Migrations
+namespace CinemaApp.Infrastructure.Migrations
 {
     public partial class seed_tariff : Migration
     {

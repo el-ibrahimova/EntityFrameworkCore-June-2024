@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace CinemaApp.Migrations
+namespace CinemaApp.Infrastructure.Migrations
 {
     public partial class add_genre_to_movies : Migration
     {

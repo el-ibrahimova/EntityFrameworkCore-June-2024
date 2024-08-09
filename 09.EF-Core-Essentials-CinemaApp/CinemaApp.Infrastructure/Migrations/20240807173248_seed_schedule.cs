@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CinemaApp.Migrations
+namespace CinemaApp.Infrastructure.Migrations
 {
     public partial class seed_schedule : Migration
     {

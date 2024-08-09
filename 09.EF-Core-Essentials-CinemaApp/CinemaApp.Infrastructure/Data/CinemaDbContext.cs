@@ -1,9 +1,10 @@
-﻿using CinemaApp.Data.Extention;
-using CinemaApp.Data.Models;
+﻿using System.Reflection;
+using CinemaApp.Infrastructure.Data.Extension;
+using CinemaApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CinemaApp.Data
+namespace CinemaApp.Infrastructure.Data
 {
     public class CinemaDbContext : DbContext
     {
@@ -25,7 +26,7 @@ namespace CinemaApp.Data
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true)
-                .AddUserSecrets(typeof(Program).Assembly)
+                .AddUserSecrets(Assembly.GetEntryAssembly()) // assembly = system reflection
                 .Build();
 
             if (optionsBuilder.IsConfigured == false)

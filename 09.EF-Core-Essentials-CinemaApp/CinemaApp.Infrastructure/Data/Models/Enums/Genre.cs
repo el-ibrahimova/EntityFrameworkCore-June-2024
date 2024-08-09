@@ -1,4 +1,4 @@
-﻿namespace CinemaApp.Data.Models.Enums
+﻿namespace CinemaApp.Infrastructure.Data.Models.Enums
 {
     public enum Genre
     {

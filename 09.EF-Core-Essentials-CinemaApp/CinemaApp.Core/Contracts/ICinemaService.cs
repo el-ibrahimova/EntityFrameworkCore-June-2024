@@ -1,11 +1,6 @@
-﻿using CinemaApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CinemaApp.Core.Models;
 
-namespace CinemaApp.Contracts
+namespace CinemaApp.Core.Contracts
 {
     public interface ICinemaService
     {

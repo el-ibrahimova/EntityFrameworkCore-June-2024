@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CinemaApp.Data.Models.Enums;
+using CinemaApp.Infrastructure.Data.Models.Enums;
 
-namespace CinemaApp.Data.Models
+namespace CinemaApp.Infrastructure.Data.Models
 {
     public class Movie
     {

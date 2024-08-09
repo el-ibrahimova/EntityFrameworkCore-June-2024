@@ -1,8 +1,8 @@
-﻿using CinemaApp.Data.Models;
+﻿using CinemaApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CinemaApp.Data.Configuration
+namespace CinemaApp.Infrastructure.Data.Configuration
 {
     internal class MovieConfiguration : IEntityTypeConfiguration<Movie>
     {

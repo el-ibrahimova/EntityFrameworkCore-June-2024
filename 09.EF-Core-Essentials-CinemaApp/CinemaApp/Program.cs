@@ -1,8 +1,8 @@
-﻿using CinemaApp.Contracts;
-using CinemaApp.Data;
-using CinemaApp.Data.Common;
-using CinemaApp.Models;
-using CinemaApp.Services;
+﻿using CinemaApp.Core.Contracts;
+using CinemaApp.Infrastructure.Data;
+using CinemaApp.Infrastructure.Data.Common;
+using CinemaApp.Core.Models;
+using CinemaApp.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
