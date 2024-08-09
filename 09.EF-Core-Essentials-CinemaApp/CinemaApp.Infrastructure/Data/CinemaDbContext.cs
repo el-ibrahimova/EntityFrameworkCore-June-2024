@@ -26,7 +26,8 @@ namespace CinemaApp.Infrastructure.Data
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true)
-                .AddUserSecrets(Assembly.GetEntryAssembly()) // assembly = system reflection
+                .AddUserSecrets("69c38dfb-32b9-44a6-82ac-cd4f0b38e8fc")  
+                // тук трябваше да сработи така ..AddUserSecrets(Assembly.GetEntryAssembly()) // assembly = system reflection , но не намери connestin string-a, затова го взехме наготово от CinemaApp -> Dependencies - > UserSecretId = "69c38dfb-32b9-44a6-82ac-cd4f0b38e8fc"
                 .Build();
 
             if (optionsBuilder.IsConfigured == false)
@@ -50,6 +51,8 @@ namespace CinemaApp.Infrastructure.Data
 
         public DbSet<Tariff> Tariffs { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,8 +70,11 @@ namespace CinemaApp.Infrastructure.Data
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
+            modelBuilder.Entity<CinemaHall>()
+                .HasKey(ch => new { ch.CinemaId, ch.HallId });
+
             // seed the data from ModelBuilderExtension class in Extension folder
-            modelBuilder.Seed();
+             modelBuilder.Seed();
            
 
             // it is good practice to write this method, not to delete it

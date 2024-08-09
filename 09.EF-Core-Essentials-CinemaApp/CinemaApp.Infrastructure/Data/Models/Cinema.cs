@@ -15,6 +15,6 @@ namespace CinemaApp.Infrastructure.Data.Models
         [StringLength(200)]
         public string Address { get; set; } = null!;
 
-        public List<Hall> Halls { get; set; } = new List<Hall>();
+        public List<CinemaHall> CinemaHalls { get; set; } = new List<CinemaHall>();
     }
 }

@@ -29,6 +29,12 @@ namespace CinemaApp.Infrastructure.Data.Models
         [Required]
         public int HallId { get; set; }
 
+        [Required]
+        public int CinemaId { get; set; }
+        
+        [ForeignKey(nameof(CinemaId))]
+        public Cinema Cinema { get; set; }
+
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CinemaApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json;
 
 namespace CinemaApp.Infrastructure.Data.Configuration
 {
@@ -8,23 +9,16 @@ namespace CinemaApp.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Movie> builder)
         {
-            builder.HasData(
-                new Movie()
-                {
+            // it is good practice to write the path this way = > to be sure that different operation system will read it correctly
+            string path = Path.Combine("bin", "Debug", "net6.0", "Data", "Datasets", "movies.json");
+            string data = File.ReadAllText(path);
 
-                    Id = 1,
-                    Title = "Snatch",
-                },
-                new Movie()
-                    {
-                        Id = 2,
-                        Title = "Lock, Stock And Two Smoking Barrels",
-                    },
-                new Movie()
-                    {
-                        Id = 3,
-                        Title = "Rock n Rolla",
-                    });
+            var movies = JsonSerializer.Deserialize<List<Movie>>(data);
+
+            if (movies != null)
+            {
+                builder.HasData(movies);
+            }
         }
     }
 }

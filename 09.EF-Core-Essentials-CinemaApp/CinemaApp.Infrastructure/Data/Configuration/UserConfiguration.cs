@@ -1,4 +1,5 @@
-﻿using CinemaApp.Infrastructure.Data.Models;
+﻿using System.Text.Json;
+using CinemaApp.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,35 +9,16 @@ namespace CinemaApp.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasData(
-                new User()
-                {
-                    Id = 1,
-                    Username = "pesho123",
-                    FirstName = "Pesho",
-                    LastName = "Petrov"
-                },
-                new User
-                {
-                    Id = 2,
-                    Username = "pesho987",
-                    FirstName = "Pesho",
-                    LastName = "Ivan"
-                },
-                new User
-                {
-                    Id = 3,
-                    Username = "vankata89",
-                    FirstName = "Ivan",
-                    LastName = "Ivanov"
-                },
-                new User
-                {
-                    Id = 4,
-                    Username = "maria12312",
-                    FirstName = "Maria  ",
-                    LastName = "Petrova"
-                });
+            // it is good practice to write the path this way = > to be sure that different operation system will read it correctly
+            string path = Path.Combine("bin", "Debug", "net6.0", "Data", "Datasets", "users.json");
+            string data = File.ReadAllText(path);
+
+            var users = JsonSerializer.Deserialize<List<User>>(data);
+
+            if (users != null)
+            {
+                builder.HasData(users);
+            }
         }
     }
 }

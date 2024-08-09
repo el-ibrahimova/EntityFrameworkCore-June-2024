@@ -12,11 +12,13 @@ namespace CinemaApp.Infrastructure.Data.Extension
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CinemaConfiguration());
+            modelBuilder.ApplyConfiguration(new CinemaConfiguration()); // 1
 
-            modelBuilder.ApplyConfiguration(new HallConfiguration());
+            modelBuilder.ApplyConfiguration(new HallConfiguration());  // 2
 
-            modelBuilder.ApplyConfiguration(new MovieConfiguration());
+            modelBuilder.ApplyConfiguration(new CinemaHallsConfiguration()); // 3
+
+            modelBuilder.ApplyConfiguration(new MovieConfiguration());  // 4
 
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
 
@@ -25,8 +27,8 @@ namespace CinemaApp.Infrastructure.Data.Extension
             modelBuilder.ApplyConfiguration(new TariffConfiguration());
 
             modelBuilder.ApplyConfiguration(new SeatConfiguration());
-            
-            modelBuilder.ApplyConfiguration(new TicketConfiguration());
+
+            //modelBuilder.ApplyConfiguration(new TicketConfiguration());
         }
     }
 }

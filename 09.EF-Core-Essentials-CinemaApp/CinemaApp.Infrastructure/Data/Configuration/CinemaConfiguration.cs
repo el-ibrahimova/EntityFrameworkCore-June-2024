@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
+using System.Text.Json;
 
 namespace CinemaApp.Infrastructure.Data.Configuration
 {
@@ -9,24 +10,16 @@ namespace CinemaApp.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Cinema> builder)
         {
-            builder
-                .HasData(
-                      new Cinema()
-                    {
-                        Id = 1,
-                        Name = "Arena Mladost",
-                        Address = "Mladost 4, Sofia"
-                    }, new Cinema()
-                    {
-                        Id = 2,
-                        Name = "Arena Stara Zagora",
-                        Address = "Stara Zaroga Mall"
-                    }, new Cinema()
-                    {
-                        Id = 3,
-                        Name = "Cinema City",
-                        Address = "Mall of Sofia"
-                    });
+            // it is good practice to write the path this way = > to be sure that different operation system will read it correctly
+           string path = Path.Combine("bin", "Debug", "net6.0", "Data", "Datasets", "cinemas.json");
+            string data = File.ReadAllText(path);
+
+            var cinemas = JsonSerializer.Deserialize<List<Cinema>>(data);
+
+            if (cinemas != null)
+            {
+                builder.HasData(cinemas);
+            }
         }
     }
 }

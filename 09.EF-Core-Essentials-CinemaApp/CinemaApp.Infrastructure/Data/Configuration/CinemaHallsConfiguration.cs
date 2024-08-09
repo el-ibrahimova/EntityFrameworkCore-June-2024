@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CinemaApp.Infrastructure.Data.Configuration
 {
-    internal class HallConfiguration : IEntityTypeConfiguration<Hall>
+    public class CinemaHallsConfiguration : IEntityTypeConfiguration<CinemaHall>
     {
-        public void Configure(EntityTypeBuilder<Hall> builder)
+        public void Configure(EntityTypeBuilder<CinemaHall> builder)
         {
             // it is good practice to write the path this way = > to be sure that different operation system will read it correctly
-            string path = Path.Combine("bin", "Debug", "net6.0", "Data", "Datasets", "halls.json");
+            string path = Path.Combine("bin", "Debug", "net6.0", "Data", "Datasets", "cinemasHalls.json");
             string data = File.ReadAllText(path);
 
-            var halls = JsonSerializer.Deserialize<List<Hall>>(data);
+            var cinemasHalls = JsonSerializer.Deserialize<List<CinemaHall>>(data);
 
-            if (halls != null)
+            if (cinemasHalls != null)
             {
-                builder.HasData(halls);
+                builder.HasData(cinemasHalls);
             }
         }
     }

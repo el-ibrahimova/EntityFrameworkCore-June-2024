@@ -12,8 +12,10 @@ namespace CinemaApp.Infrastructure.Data.Models
         [StringLength(100)]
         public string Name { get; set; } = null!;
 
+
+// determines the discount for different groups of users
         [Required]
-        // determines the discount for different groups of users
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Factor { get; set; }
 
         public List<Ticket> Tickets { get; set; } = new List<Ticket>();

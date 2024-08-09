@@ -14,7 +14,9 @@ namespace CinemaApp.Infrastructure.Data.Models
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
+     
         [Required]
+        [Column(TypeName = "money")]
         public decimal BasePrice { get; set; }
 
         [ForeignKey(nameof(SeatId))]

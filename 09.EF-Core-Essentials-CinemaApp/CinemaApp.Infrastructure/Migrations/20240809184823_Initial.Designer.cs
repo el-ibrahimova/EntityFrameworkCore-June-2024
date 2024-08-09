@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20240806192753_seedDataHall")]
-    partial class seedDataHall
+    [Migration("20240809184823_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace CinemaApp.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Cinema", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Cinema", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,29 +45,42 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cinemas");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Mladost 4, Sofia",
-                            Name = "Arena Mladost"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Stara Zaroga Mall",
-                            Name = "Arena Stara Zagora"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "Mall of Sofia",
-                            Name = "Cinema City"
-                        });
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Film", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.CinemaHall", b =>
+                {
+                    b.Property<int>("CinemaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HallId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CinemaId", "HallId");
+
+                    b.HasIndex("HallId");
+
+                    b.ToTable("CinemaHall");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Hall", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Halls");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,6 +92,9 @@ namespace CinemaApp.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int>("Genre")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -86,10 +102,10 @@ namespace CinemaApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Films");
+                    b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Hall", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Schedule", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,65 +116,13 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CinemaId");
-
-                    b.ToTable("Halls");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CinemaId = 1,
-                            Name = "IMAX Hall 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CinemaId = 1,
-                            Name = "IMAX Hall 2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CinemaId = 2,
-                            Name = "VIP Hall"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CinemaId = 2,
-                            Name = "3D Hall"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CinemaId = 3,
-                            Name = "IMAX Hall 5"
-                        });
-                });
-
-            modelBuilder.Entity("CinemaApp.Data.Models.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
 
                     b.Property<int>("HallId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Start")
@@ -166,14 +130,16 @@ namespace CinemaApp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmId");
+                    b.HasIndex("CinemaId");
 
                     b.HasIndex("HallId");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Seat", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Seat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +163,7 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.ToTable("Seats");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Tariff", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Tariff", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,25 +171,20 @@ namespace CinemaApp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Factor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("money");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("FilmId");
 
                     b.ToTable("Tariffs");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Ticket", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,9 +192,8 @@ namespace CinemaApp.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CustomerName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("money");
 
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
@@ -244,6 +204,9 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.Property<int>("TariffId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ScheduleId");
@@ -252,42 +215,91 @@ namespace CinemaApp.Infrastructure.Migrations
 
                     b.HasIndex("TariffId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Hall", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.User", b =>
                 {
-                    b.HasOne("CinemaApp.Data.Models.Cinema", "Cinema")
-                        .WithMany("Halls")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.CinemaHall", b =>
+                {
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Cinema", "Cinema")
+                        .WithMany("CinemaHalls")
                         .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cinema");
-                });
-
-            modelBuilder.Entity("CinemaApp.Data.Models.Schedule", b =>
-                {
-                    b.HasOne("CinemaApp.Data.Models.Film", "Film")
-                        .WithMany("Schedules")
-                        .HasForeignKey("FilmId")
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Hall", "Hall")
+                        .WithMany("CinemaHalls")
+                        .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaApp.Data.Models.Hall", "Hall")
+                    b.Navigation("Cinema");
+
+                    b.Navigation("Hall");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Schedule", b =>
+                {
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Cinema", "Cinema")
+                        .WithMany()
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Hall", "Hall")
                         .WithMany("Schedules")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Film");
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Movie", "Movie")
+                        .WithMany("Schedules")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cinema");
 
                     b.Navigation("Hall");
+
+                    b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Seat", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Seat", b =>
                 {
-                    b.HasOne("CinemaApp.Data.Models.Hall", "Hall")
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -296,35 +308,30 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.Navigation("Hall");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Tariff", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Ticket", b =>
                 {
-                    b.HasOne("CinemaApp.Data.Models.Film", "Film")
-                        .WithMany()
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Film");
-                });
-
-            modelBuilder.Entity("CinemaApp.Data.Models.Ticket", b =>
-                {
-                    b.HasOne("CinemaApp.Data.Models.Schedule", "Schedule")
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Schedule", "Schedule")
                         .WithMany("Tickets")
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CinemaApp.Data.Models.Seat", "Seat")
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Seat", "Seat")
                         .WithMany("Tickets")
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CinemaApp.Data.Models.Tariff", "Tariff")
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.Tariff", "Tariff")
                         .WithMany("Tickets")
                         .HasForeignKey("TariffId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CinemaApp.Infrastructure.Data.Models.User", "User")
+                        .WithMany("Tickets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Schedule");
@@ -332,36 +339,45 @@ namespace CinemaApp.Infrastructure.Migrations
                     b.Navigation("Seat");
 
                     b.Navigation("Tariff");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Cinema", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Cinema", b =>
                 {
-                    b.Navigation("Halls");
+                    b.Navigation("CinemaHalls");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Film", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Hall", b =>
                 {
-                    b.Navigation("Schedules");
-                });
+                    b.Navigation("CinemaHalls");
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Hall", b =>
-                {
                     b.Navigation("Schedules");
 
                     b.Navigation("Seats");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Schedule", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Movie", b =>
+                {
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Schedule", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Seat", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Seat", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("CinemaApp.Data.Models.Tariff", b =>
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.Tariff", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("CinemaApp.Infrastructure.Data.Models.User", b =>
                 {
                     b.Navigation("Tickets");
                 });

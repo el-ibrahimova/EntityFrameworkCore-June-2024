@@ -12,13 +12,9 @@ namespace CinemaApp.Infrastructure.Data.Models
         [StringLength(50)]
         public string Name { get; set; } = null!;
 
-        [Required]
-        public int CinemaId { get; set; }
+        public List<CinemaHall> CinemaHalls { get; set; } = new List<CinemaHall>();
 
-        [ForeignKey(nameof(CinemaId))]
-        public Cinema Cinema { get; set; } = null!;
-
-        public List<Seat> Seats { get; set; } = new List<Seat>();
+       public List<Seat> Seats { get; set; } = new List<Seat>();
 
         public List<Schedule> Schedules { get; set; } = new List<Schedule>();
     }
