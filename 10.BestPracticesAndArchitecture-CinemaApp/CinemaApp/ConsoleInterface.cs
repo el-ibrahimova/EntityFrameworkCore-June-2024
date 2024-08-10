@@ -10,7 +10,7 @@ using System.Text.Json;
 
 public static class ConsoleInterface
 {
-    public static void Run(ICinemaService cinemaService)
+    public static void Run(ICinemaService cinemaService, IMovieService movieService)
     {
         Console.WriteLine("Welcome to CinemaApp!");
         Console.WriteLine();
@@ -21,6 +21,8 @@ public static class ConsoleInterface
             Console.WriteLine("0. Insert additional movies from JSON");
             Console.WriteLine("1. List all movies");
             Console.WriteLine("2. List all cinemas");
+            Console.WriteLine("3. List all animations");
+            Console.WriteLine("4. Do some random stuff");
 
             string? input = Console.ReadLine();
 
@@ -39,7 +41,7 @@ public static class ConsoleInterface
             }
             else if (input == "1")
             {
-                List<Movie> movies = cinemaService.GetAllMovies();
+                var  movies = movieService.GetAllMovies();
 
                 if (movies.Count == 0)
                 {
@@ -90,6 +92,45 @@ public static class ConsoleInterface
                         stringBuilder.AppendLine();
                     }
                     Console.WriteLine(stringBuilder.ToString().Trim());
+                }
+            }
+            else if (input == "3")
+            {
+                //var animations = movieService
+                //    .GetAllMovies(m => m.Genre == Genre.Animation);
+
+                //foreach (var a in animations)
+                //{
+                //    Console.WriteLine($"{a.Title} - {a.Genre}");
+                //}
+
+              
+                var animationsPage1 = movieService.GetAllMoviesPaged(1, 3);
+
+                Console.WriteLine("Page 1:");
+                foreach (var a in animationsPage1)
+                {
+                    Console.WriteLine($"{a.Title} - {a.Genre}");
+                }
+                Console.WriteLine();
+
+                var animationsPage2 = movieService.GetAllMoviesPaged(2, 3);
+
+                Console.WriteLine("Page 2:");
+                foreach (var a in animationsPage2)
+                {
+                    Console.WriteLine($"{a.Title} - {a.Genre}");
+                }
+                Console.WriteLine();
+
+            }
+            else if (input == "4")
+            {
+                var cinemas = cinemaService.GetAllCinemasByTown("Sofia");
+
+                foreach (var c in cinemas)
+                {
+                    Console.WriteLine($"{c.Name} is in {c.Address} and has a {c.NumberOfHalls} halls ");
                 }
             }
             else

@@ -8,15 +8,15 @@ namespace CinemaApp.Infrastructure.Data
 {
     public class CinemaDbContext : DbContext
     {
-        //public CinemaDbContext(DbContextOptions<CinemaDbContext> options)
-        //    : base(options)
-        //{
-        //}
+        public CinemaDbContext(DbContextOptions<CinemaDbContext> options)
+            : base(options)
+        {
+        }
 
-        //public CinemaDbContext()
-        //{
+        public CinemaDbContext()
+        {
 
-        //}
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

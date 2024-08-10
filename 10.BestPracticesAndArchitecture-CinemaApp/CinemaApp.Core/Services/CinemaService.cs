@@ -2,6 +2,7 @@
 using System.Xml;
 using CinemaApp.Core.Contracts;
 using CinemaApp.Core.Models;
+using CinemaApp.Core.Models.DTOs;
 using CinemaApp.Infrastructure.Data.Common;
 using CinemaApp.Infrastructure.Data.Models;
 
@@ -38,10 +39,19 @@ namespace CinemaApp.Core.Services
             return repo.All<Cinema>().ToList();
         }
 
-        public List<Movie> GetAllMovies()
+        public List<CinemaHallsExportDto> GetAllCinemasByTown(string cityName)
         {
-            return repo.All<Movie>().ToList();
+            return repo.All<Cinema>()
+                .Select(c=> new CinemaHallsExportDto()
+                {
+                    Name = c.Name,
+                    Address = c.Address,
+                    NumberOfHalls = c.CinemaHalls.Count
+                })
+                .Where(c => c.Address.StartsWith(cityName))
+                .ToList();
         }
+
 
         public async Task InsertAdditionalMovies(List<Movie> movies)
         {

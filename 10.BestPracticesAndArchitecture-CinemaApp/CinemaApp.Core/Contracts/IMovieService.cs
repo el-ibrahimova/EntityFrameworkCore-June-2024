@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CinemaApp.Infrastructure.Data.Models;
 
 namespace CinemaApp.Core.Contracts
 {
-    internal class IMovieService
+    public interface IMovieService
     {
+     IList<Movie> GetAllMovies();
+     IQueryable<Movie> GetAllMovies(Func<Movie, bool> predicate);
+
+     IQueryable<Movie> GetAllMoviesPaged(int pageNumber, int pageSize);
     }
 }
