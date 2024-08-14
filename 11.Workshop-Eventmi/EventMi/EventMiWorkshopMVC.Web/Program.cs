@@ -6,7 +6,6 @@ namespace EventMiWorkshopMVC.Web
 {
     public class Program
     {
-
         // every async methods return Task, not void
         public static async Task Main(string[] args)
         {
@@ -22,8 +21,7 @@ namespace EventMiWorkshopMVC.Web
             // method AddDbContext is allowed after installing Microsoft.Extensions.DependencyInjection in EventMiWorkshopMVC.Web project
             builder.Services.AddDbContext<EventMiDbContext>(cfg =>
                 cfg.UseSqlServer(connectionString));
-
-
+            
             WebApplication? app = builder.Build();
 
             // Configure the HTTP request pipeline.
