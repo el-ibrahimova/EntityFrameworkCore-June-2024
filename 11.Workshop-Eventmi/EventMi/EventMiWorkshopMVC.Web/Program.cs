@@ -6,14 +6,20 @@ namespace EventMiWorkshopMVC.Web
 {
     public class Program
     {
+
+        // every async methods return Task, not void
         public static async Task Main(string[] args)
         {
             WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
+            // this "Default" string is placed in appsettings.json -> appsettings.Development.json
+            // in this way we can use several connection strings
             string connectionString = builder.Configuration.GetConnectionString("Default");
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // method AddDbContext is allowed after installing Microsoft.Extensions.DependencyInjection in EventMiWorkshopMVC.Web project
             builder.Services.AddDbContext<EventMiDbContext>(cfg =>
                 cfg.UseSqlServer(connectionString));
 
@@ -39,7 +45,7 @@ namespace EventMiWorkshopMVC.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            // automatic update database
+            // every new migration is applied on application re-run
             using IServiceScope scope = app.Services.CreateScope();
             EventMiDbContext db = scope.ServiceProvider.GetRequiredService<EventMiDbContext>();
             await db.Database.MigrateAsync();
