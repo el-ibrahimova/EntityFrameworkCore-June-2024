@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using EventMiWorkshopMVC.Web.ViewModels.Home;
 
 namespace EventMiWorkshopMVC.Web.Controllers
 {

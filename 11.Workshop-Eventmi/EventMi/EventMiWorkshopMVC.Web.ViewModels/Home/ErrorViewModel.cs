@@ -1,4 +1,4 @@
-namespace EventMiWorkshopMVC.Web.ViewModels
+namespace EventMiWorkshopMVC.Web.ViewModels.Home
 {
     public class ErrorViewModel
     {
