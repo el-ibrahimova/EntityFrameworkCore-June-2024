@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EventMiWorkshopMVC.Data.Models\EventMiWorkshopMVC.Data.Models.csproj" />
+    <ProjectReference Include="..\EventMiWorkshopMVC.Data\EventMiWorkshopMVC.Data.csproj" />
+    <ProjectReference Include="..\EventMiWorkshopMVC.Web.ViewModels\EventMiWorkshopMVC.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
