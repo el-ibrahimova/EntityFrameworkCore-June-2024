@@ -18,5 +18,8 @@ namespace EventMiWorkshopMVC.Data.Models
         [Required]
         [MaxLength(EventPlaceMaxLength)]
         public string Place { get; set; } = null!;
+
+        [Required]
+        public bool? IsActive { get; set; }
     }
 }

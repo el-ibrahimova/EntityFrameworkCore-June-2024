@@ -29,6 +29,9 @@ namespace EventMiWorkshopMVC.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Event>()
+                .Property(e => e.IsActive)
+                .HasDefaultValue(true);
         }
     }
 }
