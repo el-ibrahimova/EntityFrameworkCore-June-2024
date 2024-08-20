@@ -1,5 +1,7 @@
 using System.Reflection.Emit;
 using EventMiWorkshopMVC.Data;
+using EventMiWorkshopMVC.Services.Data;
+using EventMiWorkshopMVC.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventMiWorkshopMVC.Web
@@ -21,6 +23,8 @@ namespace EventMiWorkshopMVC.Web
             // method AddDbContext is allowed after installing Microsoft.Extensions.DependencyInjection in EventMiWorkshopMVC.Web project
             builder.Services.AddDbContext<EventMiDbContext>(cfg =>
                 cfg.UseSqlServer(connectionString));
+
+            builder.Services.AddScoped<IEventService, EventService>();
             
             WebApplication? app = builder.Build();
 
