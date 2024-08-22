@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Blog.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Data
@@ -9,5 +10,8 @@ namespace Blog.Data
             : base(options)
         {
         }
+
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
     }
 }
